@@ -1,0 +1,63 @@
+.citySelect {
+    width: 8rem;
+    display:flex;
+}
+
+main {
+    display: flex;
+    flex-flow: column;
+}
+
+.filterRow {
+    display: flex;
+    justify-content: center;
+    max-width: 80vw;
+    align-self: center;
+}
+
+.dateSelect {
+    width: 6rem;
+    display: flex;
+    align-items: center;
+    /* height: 1rem; */
+    border-radius: 2px;
+    border: solid 1px hsl(0, 0%, 80%);
+    box-shadow: none;
+    color: hsl(0, 0%, 30%);
+}
+
+.dateSelect:hover {
+    outline: solid 0.1px hsl(0, 0%, 80%)
+    /* box-shadow: hsl(0, 0, 70%); */
+}
+
+.dateSelectBox {
+    display: flex;
+    align-items: center;
+}
+
+.dateSelectClear {
+    box-shadow: none;
+    border: none;
+    transition: all 1s ease-in-out;
+}
+
+.dateSelectClear:after {
+    background-color: white;
+    color: hsl(0, 0%, 70%);
+    border-radius: 2px;
+    font-size: 1.5rem;
+    z-index: 1000;
+}
+
+.dateSelectClear:hover + :after {
+    color: hsl(0, 0%, 10%);
+}
+
+.dateSelect:focus {
+    outline: solid 2px var(--third-color);
+}
+
+.dateSelect:focus ~ .dateSelectClear::after {
+    color: hsl(0, 0%, 20%);
+}

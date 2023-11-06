@@ -1,0 +1,58 @@
+@import url("../../App.css");
+
+.table {
+    border-collapse: collapse;
+    align-self: center;
+}
+
+td {
+    text-align: center;
+    width: 20vw
+}
+
+th {
+    width: 20vw
+}
+
+
+tr {
+    display: flex;
+    align-items: center;
+}
+
+tr:hover {
+    cursor: pointer;
+}
+
+button {
+    margin-left: 0.5rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--first-color);
+}
+
+a:hover {
+    color: var(--fourth-color);
+}
+
+.tableHead {}
+
+.filterButton {
+    padding: 0.5rem;
+    border: none;
+    box-shadow: none;
+    background-color: unset;
+    text-decoration: none;
+    transition: all 0.4s ease-in-out;
+}
+
+.filterButton:hover {
+    font-weight: bold;
+}
+
+.tableRow:hover {
+    background-color: var(--third-color);
+    color: var(--fourth-color);
+}
