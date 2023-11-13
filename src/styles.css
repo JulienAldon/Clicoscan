@@ -1,37 +1,35 @@
 :root {
+  /* CSS HSL */
+  --dark-color: hsla(200, 5%, 24%, 1);
+  --information: #08c6ff;
+  --outlines: #e9a9f9;
+  --background: rgba(255, 255, 255, 0.815);
+  --light-color: rgba(240, 240, 240, 1);
+
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
 
-  color: #0f0f0f;
-  background-color: #f6f6f6;
+  color: var(--dark-color);
+  background-color: var(--background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  height: 100vh;
+  width: 100vw;
+  display: flex;
 }
 
-.container {
-  margin: 0;
-  padding-top: 10vh;
+#root {
+  height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
-
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
 }
 
 .row {
@@ -45,14 +43,14 @@ h1 {
 
 input,
 button {
-  border-radius: 8px;
+  border-radius: 1px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  color: #0f0f0f;
-  background-color: #ffffff;
+  color: var(--dark-color);
+  background-color: var(--light-color);
   transition: border-color 0.25s;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
@@ -66,14 +64,28 @@ button {
   outline: none;
 }
 
-#greet-input {
-  margin-right: 5px;
+button:disabled {
+  background-color: rgba(22, 22, 22, 0.2);
+}
+
+button:disabled:hover {
+  background-color: rgba(22, 22, 22, 0.2);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
+    color: var(--light-color);
+    background-color: var(--dark-color);
   }
 
   a:hover {
@@ -82,10 +94,10 @@ button {
 
   input,
   button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
+    color: var(--light-color);
+    background-color: var(--dark-color);
   }
   button:active {
-    background-color: #0f0f0f69;
+    background-color: var(--dark-color);
   }
 }

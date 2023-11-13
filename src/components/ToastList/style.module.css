@@ -1,0 +1,85 @@
+.notificationContainer {
+    font-size: 14px;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 999999;
+}
+
+.notification {
+	background: #fff;
+	text-align: center;
+	transition: .3s ease;
+	position: relative;
+	pointer-events: auto;
+	border-radius: 3px 3px 3px 3px;
+	margin-bottom: 1rem;
+	box-shadow: 0 0 10px #999;
+}
+
+.notification:hover {
+	box-shadow: 0 0 12px #fff;
+	opacity: 1;
+	cursor: pointer
+}
+
+.notificationTitle {
+	font-size: 1.4rem;
+	margin-top: 0;
+	margin-bottom: 6px;
+    height: 1.4rem;
+}
+
+.notificationDescription {
+	font-size: 1.2rem;
+	margin: 0;
+	text-align: center;
+    height: 2rem;
+    margin-left: -1px;
+    text-overflow: ellipsis;
+}
+
+.toast {
+    height: 5rem;
+    width: 35rem;
+	color: #fff;
+	padding: 20px 15px 10px 10px;
+}
+
+.notificationContainer button:hover {
+	border: .1em solid;
+}
+
+.notificationContainer button {
+	position: relative;
+	right: -.3em;
+	top: -.3em;
+	float: right;
+	font-weight: 700;
+	color: #fff;
+	outline: none;
+	border: none;
+	text-shadow: 0 1px 0 #fff;
+	opacity: .8;
+	line-height: 1;
+	font-size: 16px;
+	padding: 0;
+	cursor: pointer;
+	background: 0 0;
+	border: 0
+}
+
+.topRight {
+    top: 4em;
+    right: 1em;
+    transition: transform .6s ease-in-out;
+    animation: toast-in-right .7s;
+}
+
+@media (max-width: 40rem) {
+	.toast {
+		height: 5rem;
+		width: 88vw;
+		color: #fff;
+		padding: 20px 15px 10px 10px;
+	}	
+}

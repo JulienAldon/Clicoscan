@@ -1,0 +1,14 @@
+.navButton {
+    border: none;
+    outline: none;    
+    box-shadow: none;
+    border-radius: 0px;
+    background-color: var(--light-color);
+    padding:1rem;
+}
+
+.navButton:hover {
+    background-color: var(--information);
+    transition: all ease-in-out 0.4s;
+
+}

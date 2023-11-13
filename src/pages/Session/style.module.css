@@ -1,0 +1,64 @@
+.mainContent {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.errorMessage {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.scanButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.appButton:hover {
+    background-color: var(--information);
+    transition: all ease-in-out 0.4s;
+}
+
+li {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    text-decoration: none;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-sizing: border-box;
+    height: 3.5rem;
+    animation: all ease-in-out 0.6s;
+    width: 30vw;
+}
+
+ul {
+    margin: 2rem;
+    list-style-type: none;
+    padding: 0px;
+    margin-left: 20vw;
+    margin-right: 20vw;
+}
+
+.selected {
+    background-color: #08c5ff46;
+    outline: #08c5fff8 solid 2px;
+    color: var(--dark-color);
+}
+
+.buttonLoading {
+    width: 2rem;
+    height: 1.5rem;
+}
+
+.buttonLoading::after {
+    width: 1rem;
+    height: 1rem;
+}
+
+.commands {
+    display: flex;
+    flex-direction: row;
+}

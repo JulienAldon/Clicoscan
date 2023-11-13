@@ -1,0 +1,22 @@
+.search {
+    height: 3rem;
+    padding: 0.3rem;
+    border: solid 1px rgb(12, 120, 120);
+    flex: 1 1 auto;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+}
+
+.search:focus {
+    outline: solid 2px rgb(12, 120, 120);
+}
+
+.searchContainer {
+    display: flex;
+    flex-flow: row;
+    flex: 1 1 auto;
+    max-width: 23rem;
+}

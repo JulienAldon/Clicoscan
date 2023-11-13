@@ -1,0 +1,56 @@
+.mainContent {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    height: 33vh;
+    background-color: var(--light-color);
+    border-radius: 3px;
+    box-shadow: 5px 5px 5px rgba(100, 100, 0, 0.5);
+}
+
+.title {
+    margin-top: 5rem;
+    flex: 1 1 auto;
+    max-height: 10rem;
+    display: flex;
+    margin-top: 2rem;
+    height: 10rem;
+    margin-bottom: 2rem;
+    flex-direction: column;
+}
+
+.title > label {
+    margin: 1rem;
+}
+
+.svgAccount {
+    flex: 1 1 auto;
+    color: var(--dark-color);
+}
+
+.loginButton {
+    width: 15rem;
+    align-self: center;
+    transition: all ease-in-out 0.4s;
+}
+
+.loginButton:hover {
+    background-color: var(--information);
+    color: var(--dark-color);
+}
+
+@media (max-width: 1250px) { 
+    .form {
+        width: 35vw;
+        height: 45vh;
+    }
+}

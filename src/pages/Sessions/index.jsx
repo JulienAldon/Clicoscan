@@ -7,9 +7,14 @@ import { invoke } from "@tauri-apps/api/tauri";
 import SelectList from "../../components/SelectList";
 import SessionsTable from "../../components/SessionsTable";
 import styles from './style.module.css';
+import AppLoader from "../../components/AppLoader";
+import { useAuthGuard } from "../../context/auth";
 
 function Sessions() {
+    const context = useAuthGuard();
     const navigate = useNavigate();
+    const [ loading, setLoading ] = useState(true);
+    const [ errorMessage, setErrorMessage ] = useState("");
     const [ cityFilter, setCityFilter ] = useState("");
     const [ dateFilter, setDateFilter ] = useState(null);
     const [ dateToInclude, setDateToInclude ] = useState([]);
@@ -28,8 +33,14 @@ function Sessions() {
     }
     
     function getSessions() {
+        setLoading(true);
         invoke("get_api_sessions").then((e) => {
             setBackData(e)
+            setLoading(false);
+        }).catch((err) => {
+            console.log("error", err);
+            setLoading(false);
+            setErrorMessage(err);
         })
     }
 
@@ -66,7 +77,7 @@ function Sessions() {
     }, [backData, sessionList])
 
     return (
-        <main>
+        <main className={styles.mainContent}>
             <h1>All sessions</h1>
             <div className={styles.filterRow}>
                 <SelectList 
@@ -91,18 +102,25 @@ function Sessions() {
                     includeDates={dateToInclude}
                 />
             </div>
-            <SessionsTable 
-                onClickRow={(id)=>{
-                    navigate("/session/"+id);
-                }}
-                sessionList={sessionList}
-                sessionHead={[
-                    {name: "Id", id: "id", stateIcon: ">"},
-                    {name: "City", id: "city", stateIcon: ">"},
-                    {name: "Date", id: "date", stateIcon: ">"},
-                    {name: "Hour", id: "hour", stateIcon: ">"},
-                ]}
-            />
+            
+            { 
+                loading      ? <AppLoader></AppLoader> 
+                             : 
+                errorMessage ? <p className={styles.errorMessage}>{errorMessage}</p> 
+                             :
+                <SessionsTable 
+                    onClickRow={(id)=>{
+                        navigate("/session/"+id);
+                    }}
+                    sessionList={sessionList}
+                    sessionHead={[
+                        {name: "Id", id: "id", stateIcon: ">"},
+                        {name: "City", id: "city", stateIcon: ">"},
+                        {name: "Date", id: "date", stateIcon: ">"},
+                        {name: "Hour", id: "hour", stateIcon: ">"},
+                    ]}
+                />
+            }
         </main>
     );
 }

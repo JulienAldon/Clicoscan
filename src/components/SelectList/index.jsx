@@ -13,7 +13,7 @@ const SelectList = ({data, onChange, className, clearFilter}) => {
 
     return (
         <Select 
-            className={`${className}`}
+            className={className}
             options={choices}
             onChange={onChange}
             isClearable={true}

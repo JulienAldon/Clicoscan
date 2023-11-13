@@ -1,8 +1,11 @@
-const AppButton = ({ButtonText, ButtonAction}) => {
+const AppButton = ({className, ButtonAction, children, disabled}) => {
     return (
-        <button onClick={() => {
+        <button
+            disabled={disabled}
+            className={className} 
+            onClick={() => {
             ButtonAction()
-        }}>{ButtonText}</button>
+        }}>{children}</button>
     );
 }
 
