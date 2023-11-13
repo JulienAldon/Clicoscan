@@ -74,7 +74,7 @@ async fn get_email_from_id(handle: tauri::AppHandle, card_id: String) -> models:
 	let bearer = "Bearer ".to_string() + &token.to_string();
 
 	let resp = Client::new()
-		.get("http://localhost:8000/api/scan/card/".to_string() + &card_id)
+		.get(format!("{}/api/scan/card/", auth.back_addr).to_string() + &card_id)
 		.header("Authorization".to_string(), bearer)
 		.send()
 		.await?
@@ -175,7 +175,7 @@ async fn get_api_sessions(handle: tauri::AppHandle) -> models::APIResult<Vec<mod
 	let bearer = "Bearer ".to_string() + &token.to_string();
 
 	let resp = Client::new()
-		.get("http://localhost:8000/api/sessions")
+		.get(format!("{}/api/sessions", auth.back_addr))
 		.header("Authorization".to_string(), bearer)
 		.send()
 		.await?
@@ -193,7 +193,7 @@ async fn get_api_session(handle: tauri::AppHandle, session_id: String) -> models
 	let bearer = "Bearer ".to_string() + &token.to_string();
 
 	let json_string = Client::new()
-		.get("http://localhost:8000/api/session/".to_owned() + session_id.as_str())
+		.get(format!("{}/api/session/", auth.back_addr).to_owned() + session_id.as_str())
 		.header("Authorization".to_string(), bearer)
 		.send()
 		.await?
@@ -223,7 +223,7 @@ async fn put_api_session(handle: tauri::AppHandle, students: Vec<models::Student
 		data: students
 	};
 	let json_string = Client::new()
-		.put("http://localhost:8000/api/session/".to_owned() + session_id.as_str())
+		.put(format!("{}/api/session/", auth.back_addr).to_owned() + session_id.as_str())
 		.header("Authorization".to_string(), bearer)
 		.json(&body)
 		.send()
@@ -373,16 +373,17 @@ fn get_available_addr() -> SocketAddr {
 }
 
 fn main() {
+	let addr = env::var("back_url").expect("variable back_url should be set");
 	let (pkce_code_challenge,pkce_code_verifier) = PkceCodeChallenge::new_random_sha256();
     let socket_addr = get_available_addr();
 	let redirect_url = format!("http://{socket_addr}/auth").to_string();
-
     let state = models::AuthState {
         csrf_token: CsrfToken::new_random(),
         pkce: Arc::new((pkce_code_challenge, PkceCodeVerifier::secret(&pkce_code_verifier).to_string())),
         client: Arc::new(create_client(RedirectUrl::new(redirect_url).unwrap())),
         socket_addr,
 		token: Arc::new(Mutex::new("".to_string())),
+		back_addr: addr,
     };
 
     tauri::Builder::default()
