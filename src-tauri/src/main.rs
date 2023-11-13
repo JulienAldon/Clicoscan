@@ -354,8 +354,8 @@ async fn run_server(handle: tauri::AppHandle, signal: models::Signal) -> Result<
 }
 
 fn create_client(redirect_url: RedirectUrl) -> BasicClient {
-	let cli_id = env::var("client_id").expect("please set environment variables");
-	let tenant_id = env::var("tenant_id").expect("please set environment variables");
+	let cli_id = env!("client_id").to_string();
+	let tenant_id = env!("tenant_id").to_string();
 	
 	let client_id = ClientId::new(cli_id);
     let auth_url = AuthUrl::new(format!("https://login.microsoftonline.com/{}/oauth2/v2.0/authorize", tenant_id));
@@ -373,7 +373,7 @@ fn get_available_addr() -> SocketAddr {
 }
 
 fn main() {
-	let addr = env::var("back_url").expect("variable back_url should be set");
+	let addr = env!("back_url").to_string();
 	let (pkce_code_challenge,pkce_code_verifier) = PkceCodeChallenge::new_random_sha256();
     let socket_addr = get_available_addr();
 	let redirect_url = format!("http://{socket_addr}/auth").to_string();
