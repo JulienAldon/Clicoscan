@@ -17,3 +17,6 @@ Aller vers une session
 Liste d'element clicables permettant de changer le statut de présence
 Bouton scan de la carte -> active le mode scan -> valide chaque carte valide
 Bonton valider -> sauve sous forme de csv si l'option est cochée -> envoi a clicodrome la feuille de présence
+
+# Usage
+Set `client_id` and `tenant_id` variables in your shell environment for oauth2 flow.

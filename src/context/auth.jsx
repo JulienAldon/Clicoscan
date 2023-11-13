@@ -12,7 +12,7 @@ function AuthProvider(props) {
     useState(() => {
         console.log("auth provider", Cookies.get('token'))
     }, [token])
-    return (<AuthContext.Provider value={token}>
+    return (<AuthContext.Provider value={{token, setToken}}>
         {props.children}
     </AuthContext.Provider>
     );
@@ -23,27 +23,26 @@ function logout() {
 	window.location.replace(`/`);
 }
 
-async function authenticate() {
+async function authenticate(setToken) {
     invoke("authenticate").then((result) => {
         if (result != "") {
+            setToken(result);
             Cookies.set('token', result);
-            window.location.replace('/sessions');
         }
     }).catch((err) => {
         console.log(err);
     });
-   
 }
 
 function useAuthGuard() {
-    const context = Cookies.get('token');
+    const context = useContext(AuthContext);
 
     useEffect(() => {
-        if (context === undefined) {
+        if (context.token === undefined) {
             logout()
             console.log('logout because token was not found.');
         }
-        let decodedToken = jwtDecode(context);
+        let decodedToken = jwtDecode(context.token);
         let currentDate = new Date();
 
         if (decodedToken.exp * 1000 < currentDate.getTime()) {

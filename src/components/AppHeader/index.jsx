@@ -7,7 +7,7 @@ function AppHeader() {
     return (
        <>
         {    
-            context 
+            context.token 
             ?  <header>
             <a className={styles.navButton} href="/sessions">Sessions</a>
             <button className={styles.navButton} onClick={logout}>Logout</button>

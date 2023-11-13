@@ -9,6 +9,7 @@ use nfc::context;
 pub mod models;
 pub mod errors;
 
+use std::env;
 use reqwest::Client;
 use std::net::{
 	TcpListener, 
@@ -326,7 +327,6 @@ async fn authorize(handle: Extension<tauri::AppHandle>, signal: Extension<tokio:
 		let res = axum::response::Html(read_file_content(template_err.to_str().unwrap().to_string()).await);
 		return res;
 	}
-
 	let mut state_token = auth.token.lock().await;
 	*state_token = token;
 
@@ -354,9 +354,12 @@ async fn run_server(handle: tauri::AppHandle, signal: models::Signal) -> Result<
 }
 
 fn create_client(redirect_url: RedirectUrl) -> BasicClient {
-    let client_id = ClientId::new("05545068-ecb5-4188-8656-2f4dc5826cbd".to_string());
-    let auth_url = AuthUrl::new("https://login.microsoftonline.com/901cb4ca-b862-4029-9306-e5cd0f6d9f86/oauth2/v2.0/authorize".to_string());
-    let token_url = TokenUrl::new("https://login.microsoftonline.com/901cb4ca-b862-4029-9306-e5cd0f6d9f86/oauth2/v2.0/token".to_string());
+	let cli_id = env::var("client_id").expect("please set environment variables");
+	let tenant_id = env::var("tenant_id").expect("please set environment variables");
+	
+	let client_id = ClientId::new(cli_id);
+    let auth_url = AuthUrl::new(format!("https://login.microsoftonline.com/{}/oauth2/v2.0/authorize", tenant_id));
+    let token_url = TokenUrl::new(format!("https://login.microsoftonline.com/{}/oauth2/v2.0/token", tenant_id));
     BasicClient::new(client_id, None, auth_url.unwrap(), token_url.ok())
         .set_redirect_uri(redirect_url)
 }

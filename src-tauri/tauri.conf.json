@@ -22,7 +22,7 @@
       "resources": ["../template/*"],
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "app.clicoscan.fr",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
