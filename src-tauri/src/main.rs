@@ -134,19 +134,38 @@ fn scan() -> models::APIResult<String> {
 		return res;
     }
 
-	nfc::initiator::poll_target(device, &modulation, 1, 255, 2, &mut target);
-	println!("result {}", nfc::error::strerror(device));
-	
+	let string: [u8; 10];
+
+	println!("poll");
+	loop {
+		if nfc::error::device_get_last_error(device) != 0 {
+			nfc::close(device);
+			nfc::exit(context);
+			let res = Err(errors::TauriError {
+				detail: "Error during polling"
+			});
+			return res;
+		}
+		if nfc::initiator::poll_target(device, &modulation, 1, 1, 5, &mut target) > 0 {
+			
+			string = unsafe { (*target.nti.nai()).abtUid };
+			break;
+		}	
+	}
+
 	if nfc::error::strerror(device) != "Success" {
 		nfc::close(device);
-        nfc::exit(context);
+		nfc::exit(context);
 		let res = Err(errors::TauriError {
 			detail: "No card found"
 		});
 		return res;
 	}
 
-	let string: [u8; 10] = unsafe { (*target.nti.nai()).abtUid };
+	println!("result {}", nfc::error::strerror(device));
+	
+
+	// let string: [u8; 10] = unsafe { (*target.nti.nai()).abtUid };
 	let card_id = hex_code_from_string(string);
 
 	println!("{}", card_id);
@@ -173,8 +192,11 @@ async fn get_api_sessions(handle: tauri::AppHandle) -> models::APIResult<Vec<mod
 	let auth = handle.state::<models::AuthState>();
 	let token = auth.token.lock().await;
 	let bearer = "Bearer ".to_string() + &token.to_string();
+	
+	println!("{}/api/sessions", auth.back_addr);
 
 	let resp = Client::new()
+		// .get("https://clikodrome.aldon.fr/api/sessions")
 		.get(format!("{}/api/sessions", auth.back_addr))
 		.header("Authorization".to_string(), bearer)
 		.send()

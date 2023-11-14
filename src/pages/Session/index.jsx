@@ -30,10 +30,12 @@ function Session() {
 
     function saveSession() {
         setSaveLoading(true);
-        let payload = students.filter((el) => el.status !== null || el.status !== undefined)
-        console.log(payload)
+        let payload = students.filter((el) => {
+            el.late = "NULL";
+            return el.status !== null
+        })
+        console.log(payload);
         invoke("put_api_session", {students: payload, sessionId: id}).then((e) => {
-            console.log(students)
             setSaveLoading(false);
             setToastList((toastList) => {return [...toastList, {
                 id: "Saved",
@@ -45,8 +47,10 @@ function Session() {
     }
 
     function scanNfcDevice(signal) {
+        console.log("start scan")
         if (signal.aborted) {
             console.log("signal aborted")
+            setScanStatus(false);
             return signal.reason;
         }
         invoke("scan").then((e) => {
@@ -54,17 +58,24 @@ function Session() {
             if (e !== "") {
                 invoke("get_email_from_id", {cardId: e}).then((z) => {
                     let elem = students.filter((el => el.login === z))
-                    console.log("elem", elem);
-                    selectStudentScan(elem[0]);
+                    if (elem[0].status!=="present") {
+                        console.log("elem", elem);
+                        selectStudentScan(elem[0]);
+                    }
                 }).catch((err) => {
                     console.log("err", err);
                     return err
                 });
             }
-            return scanNfcDevice(signal);
+
+            return setTimeout(() => {
+                return scanNfcDevice(signal);
+            }, 500)
         }).catch((err) => {
             if (err === "No card found") {
-                return scanNfcDevice(signal);
+                return setTimeout(() => {
+                    return scanNfcDevice(signal);
+                }, 500)
             }
             console.log("could not scan card", err)
             setScanStatus(false);
@@ -72,6 +83,7 @@ function Session() {
 
         signal.addEventListener("abort", () => {
             console.log("event listener aborted")
+            setScanStatus(false);
             return signal.reason;
         });
     }
@@ -155,7 +167,7 @@ function Session() {
     useEffect(() => {
         const controller = new AbortController();
         const signal = controller.signal;
-        if (scanStatus) { 
+        if (scanStatus) {
             scanNfcDevice(signal);
         }
         

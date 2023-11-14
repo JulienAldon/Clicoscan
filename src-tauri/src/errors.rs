@@ -8,6 +8,7 @@ pub struct TauriError {
 
 impl From<reqwest::Error> for TauriError {
     fn from(error: reqwest::Error) -> Self {
+        println!("{:?}", error);
         let error_message = match error.status() {
             Some(StatusCode::FORBIDDEN) => "You don't have appropriate privileges to access this ressource.",
             Some(StatusCode::BAD_REQUEST) => "There was a problem with the formating of the request",

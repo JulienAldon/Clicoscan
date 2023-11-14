@@ -22,7 +22,7 @@
       "resources": ["../template/*"],
       "active": true,
       "targets": "all",
-      "identifier": "app.clicoscan.fr",
+      "identifier": "fr.aldon.clikodrome",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",

@@ -71,8 +71,8 @@
 .topRight {
     top: 4em;
     right: 1em;
-    transition: transform .6s ease-in-out;
-    animation: toast-in-right .7s;
+    transition: transform ease-in-out .6s;
+    /* animation: toast-in-right .7s; */
 }
 
 @media (max-width: 40rem) {
