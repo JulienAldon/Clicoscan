@@ -70,12 +70,12 @@ function Session() {
 
             return setTimeout(() => {
                 return scanNfcDevice(signal);
-            }, 500)
+            }, 400)
         }).catch((err) => {
             if (err === "No card found") {
                 return setTimeout(() => {
                     return scanNfcDevice(signal);
-                }, 500)
+                }, 400)
             }
             console.log("could not scan card", err)
             setScanStatus(false);

@@ -276,7 +276,7 @@ async fn authenticate(handle: tauri::AppHandle) -> Result<String, errors::TauriE
         .authorize_url(|| auth.csrf_token.clone())
         .add_scope(Scope::new("openid".to_string()))
         .add_scope(Scope::new("email".to_string()))
-        .add_scope(Scope::new("api://05545068-ecb5-4188-8656-2f4dc5826cbd/Attendance.Read".to_string()))
+        .add_scope(Scope::new(format!("api://{}/Attendance.Read", env!("client_id"))))
         .set_pkce_challenge(auth.pkce.0.clone())
         .url();
 
