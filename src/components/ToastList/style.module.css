@@ -5,6 +5,14 @@
     z-index: 999999;
 }
 
+.deleted {
+	animation: 0.4s linear slideOut;
+}
+
+.created {
+    animation: 0.4s linear slidein;
+}
+
 .notification {
 	background: #fff;
 	text-align: center;
@@ -14,7 +22,6 @@
 	border-radius: 3px 3px 3px 3px;
 	margin-bottom: 1rem;
 	box-shadow: 0 0 10px #999;
-    animation: 0.4s linear slidein;
 	transition: all 0.4s;
 }
 
@@ -87,4 +94,9 @@
 @keyframes slidein {
 	from { transform: translate(1000px); }
 	to   { transform: translate(0px); }
+}
+
+@keyframes slideOut {
+	from   { transform: translate(0px); }
+	to { transform: translate(1000px); }
 }

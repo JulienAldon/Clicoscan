@@ -81,7 +81,6 @@ function Session() {
             return stud
         });
         setStudents([...s]);
-        saveSession();
     }
 
     function isPresent(elem) {
@@ -130,7 +129,7 @@ function Session() {
     function selectStudentScan(elem) {
         if (elem.status !== "present") {
             setToastList((toastList) => {return [...toastList, {
-                id: elem.id,
+                id: Math.random().toString(),
                 title: "Information",
                 description: "Card scanned : " + elem.login,
                 backgroundColor: "#08c6ff",
@@ -144,7 +143,6 @@ function Session() {
             return stud
         });
         setStudents([...s]);
-        saveSession();
     }
     
     useEffect(() => {
@@ -161,6 +159,7 @@ function Session() {
 
     useEffect(() => {
         setDisplayStudents(students.filter((el) => el.login.includes(currentSearch)));
+        saveSession();
     }, [students]);
 
     return (

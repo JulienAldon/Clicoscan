@@ -12,7 +12,7 @@ function ToastProvider({ children }) {
     useEffect(() => {
         if (toastList.length > 2) {
             toastList.shift();
-            setToastList([...toastList])
+            setToastList([...toastList]);
         }
     }, [toastList])
 

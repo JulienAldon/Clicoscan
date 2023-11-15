@@ -196,7 +196,6 @@ async fn get_api_sessions(handle: tauri::AppHandle) -> models::APIResult<Vec<mod
 	println!("{}/api/sessions", auth.back_addr);
 
 	let resp = Client::new()
-		// .get("https://clikodrome.aldon.fr/api/sessions")
 		.get(format!("{}/api/sessions", auth.back_addr))
 		.header("Authorization".to_string(), bearer)
 		.send()
