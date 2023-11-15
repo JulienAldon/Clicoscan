@@ -16,7 +16,7 @@ function App() {
         <BrowserRouter>
           <AppHeader/>
           <Routes>
-            <Route index element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="sessions" element={<Sessions />} />
             <Route path="session/:id" element={<Session />} />
           </Routes>
