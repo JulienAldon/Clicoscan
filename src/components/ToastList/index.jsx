@@ -4,7 +4,7 @@ import styles from './style.module.css';
 const Toast = (props) => {
     const { position} = props;
 	const { toastList, setToastList } = useToast();
-
+    
     const deleteToast = id => {
         let tmp = toastList;
         let index = tmp.findIndex(e => e.id === id);

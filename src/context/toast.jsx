@@ -7,7 +7,7 @@ export const useToast = () => useContext(ToastContext);
 
 function ToastProvider({ children }) {
     const [ toastList, setToastList ] = useState([]);
-    
+
     // XXX: Probably bugged submit to further testing 
     useEffect(() => {
         if (toastList.length > 2) {
@@ -17,7 +17,7 @@ function ToastProvider({ children }) {
     }, [toastList])
 
     return (
-        <ToastContext.Provider value={{ toastList, setToastList}}>
+        <ToastContext.Provider value={{ toastList, setToastList }}>
             { children }
         </ToastContext.Provider>
     );

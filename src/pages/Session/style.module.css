@@ -9,10 +9,24 @@
     font-size: 2rem;
 }
 
+.green {
+    background-color: rgba(150, 200, 150);
+    transition: all ease-in-out 0.4s;
+}
+
+.red {
+    background-color: rgba(200, 150, 150);
+    transition: all ease-in-out 0.4s;
+}
+
 .scanButton {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.appButton {
+    transition: all ease-in-out 0.4s;
 }
 
 .appButton:hover {
