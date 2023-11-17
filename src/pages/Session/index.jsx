@@ -133,6 +133,7 @@ function Session() {
                 title: "Information",
                 description: "Card scanned : " + elem.login,
                 backgroundColor: "#08c6ff",
+                deleted: false,
             }]});
         }
         const s = students.map((stud) => {

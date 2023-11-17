@@ -4,21 +4,10 @@ import styles from './style.module.css';
 
 const Toast = (props) => {
     const { position } = props;
-	const { toastList, setToastList } = useToast();
+	const { toastList, setToastList, markToastAsDeleted } = useToast();
     
     const deleteToast = id => {
         setToastList(toastList.filter(e => e.id !== id));
-    }
-
-    const markToastAsDeleted = id => {
-        let newList = toastList.map((elem) => {
-            elem.deleted = false;
-            if (elem.id === id) {
-                elem.deleted = true;
-            }
-            return elem
-        })
-        setToastList(newList);
     }
 
     return (
