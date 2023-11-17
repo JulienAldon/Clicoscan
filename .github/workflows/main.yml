@@ -64,7 +64,12 @@ jobs:
       - name: install dependencies (windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          mingw64 install libnfc
+          git clone https://github.com/microsoft/vcpkg
+          .\vcpkg\bootstrap-vcpkg.bat
+          .\vcpkg\vcpkg install libusb:x64-windows
+          .\vcpkg\vcpkg install pcsclite:x64-windows
+          cd libnfc
+          make
       - name: install dependencies (macos)
         if: matrix.platform == 'macos-latest'
         run: |
