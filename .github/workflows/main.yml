@@ -68,6 +68,7 @@ jobs:
           .\vcpkg\bootstrap-vcpkg.bat
           .\vcpkg\vcpkg install libusb:x64-windows
           .\vcpkg\vcpkg install pcsclite:x64-windows
+          git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
           make
       - name: install dependencies (macos)
