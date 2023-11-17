@@ -66,6 +66,9 @@ jobs:
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          client_id: ${{ secrets.CLIENT_ID }}
+          tenant_id: ${{ secrets.TENANT_ID }}
+          back_url: "https://clikodrome.aldon.fr"
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
 
