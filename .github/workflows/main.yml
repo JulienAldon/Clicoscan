@@ -65,7 +65,12 @@ jobs:
         if: matrix.platform == 'windows-latest'
         uses: crazy-max/ghaction-chocolatey@v3
         with:
-          args: install cmake, doxygen
+          args: install cmake
+      - name: install dependencies cmake (windows)
+        if: matrix.platform == 'windows-latest'
+        uses: crazy-max/ghaction-chocolatey@v3
+        with:
+          args: install doxygen
       - name: install dependencies libusb (windows)
         if: matrix.platform == 'windows-latest'
         run: |
