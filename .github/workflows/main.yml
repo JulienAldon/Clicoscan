@@ -65,10 +65,7 @@ jobs:
         if: matrix.platform == 'windows-latest'
         uses: crazy-max/ghaction-chocolatey@v3
         with:
-          args: install
-      - name: install CMAKE (windows)
-        if: matrix.platform == 'windows-latest'
-        run: choco install cmake
+          args: install cmake
       - name: Build libnfc
         if: matrix.platform == 'windows-latest'
         run: |
