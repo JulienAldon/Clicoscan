@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04, windows-latest]
+        platform: [macos-latest, ubuntu-20.04]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -61,33 +61,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf libnfc-dev
-      - name: install dependencies cmake (windows)
-        if: matrix.platform == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v3
-        with:
-          args: install cmake
-      - name: install dependencies cmake (windows)
-        if: matrix.platform == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v3
-        with:
-          args: install doxygen.install
-      - name: install dependencies libusb (windows)
-        if: matrix.platform == 'windows-latest'
-        run: |
-          git clone https://github.com/Microsoft/vcpkg.git
-          cd vcpkg
-          ./bootstrap-vcpkg.bat
-          ./vcpkg integrate install
-          vcpkg install libusb
-      - name: Build libnfc
-        if: matrix.platform == 'windows-latest'
-        run: |
-          git clone https://github.com/nfc-tools/libnfc.git
-          cd libnfc
-          mkdir build
-          cd build
-          cmake ..
-          cmake --build .
       - name: install dependencies (macos)
         if: matrix.platform == 'macos-latest'
         run: |
