@@ -68,14 +68,12 @@ jobs:
           args: install cmake
       - name: install dependencies libusb (windows)
         if: matrix.platform == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v3
-        with:
-          args: install libusb
-      - name: install dependencies zlib (windows)
-        if: matrix.platform == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v3
-        with:
-          args: install zlib
+        run: |
+          git clone https://github.com/Microsoft/vcpkg.git
+          cd vcpkg
+          ./bootstrap-vcpkg.bat
+          ./vcpkg integrate install
+          vcpkg install libusb
       - name: Build libnfc
         if: matrix.platform == 'windows-latest'
         run: |
