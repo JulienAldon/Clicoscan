@@ -69,9 +69,9 @@ jobs:
       - name: install dependencies (windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          winget install libusb
-          winget install pcsclite
-          winget install libnfc
+          winget install libusb --disable-interactivity --accept-source-agreements
+          winget install pcsclite --disable-interactivity --accept-source-agreements
+          winget install libnfc --disable-interactivity --accept-source-agreements
       - name: install dependencies (macos)
         if: matrix.platform == 'macos-latest'
         run: |
