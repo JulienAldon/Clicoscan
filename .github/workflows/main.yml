@@ -61,17 +61,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf libnfc-dev
-      - name: install winget (windows)
-        if: matrix.platform == 'windows-latest'
-        uses: Cyberboss/install-winget@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: install dependencies (windows)
-        if: matrix.platform == 'windows-latest'
+        run: choco install cmake
+      - name: Build libnfc
         run: |
-          winget install libusb --disable-interactivity --accept-source-agreements
-          winget install pcsclite --disable-interactivity --accept-source-agreements
-          winget install libnfc --disable-interactivity --accept-source-agreements
+          git clone https://github.com/nfc-tools/libnfc.git
+          cd libnfc
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
       - name: install dependencies (macos)
         if: matrix.platform == 'macos-latest'
         run: |
