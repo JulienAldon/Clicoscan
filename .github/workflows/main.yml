@@ -64,6 +64,7 @@ jobs:
       - name: install dependencies (windows)
         if: matrix.platform == 'windows-latest'
         uses: crazy-max/ghaction-chocolatey@v3
+        args: install
       - name: install CMAKE (windows)
         if: matrix.platform == 'windows-latest'
         run: choco install cmake
