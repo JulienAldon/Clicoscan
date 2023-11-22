@@ -133,9 +133,7 @@ fn scan() -> models::APIResult<String> {
 		});
 		return res;
     }
-
 	let string: [u8; 10];
-
 	println!("poll");
 	loop {
 		if nfc::error::device_get_last_error(device) != 0 {
@@ -163,19 +161,17 @@ fn scan() -> models::APIResult<String> {
 	}
 
 	println!("result {}", nfc::error::strerror(device));
-	
-
-	// let string: [u8; 10] = unsafe { (*target.nti.nai()).abtUid };
 	let card_id = hex_code_from_string(string);
-
 	println!("{}", card_id);
-
 	nfc::close(device);
 	nfc::exit(context);
 
 	return Ok(card_id);
 }
 
+/// Get the hex code and returns a string
+/// # Arguments
+/// - `string`: hex code.
 fn hex_code_from_string(string: [u8; 10]) -> String {
 	let mut card_id = String::from("");
 
@@ -187,6 +183,9 @@ fn hex_code_from_string(string: [u8; 10]) -> String {
 	return card_id;
 }
 
+/// Get all sessions names, ids and datetime.
+/// # Arguments
+/// - `handle`: AppHandle containing application state.
 #[tauri::command]
 async fn get_api_sessions(handle: tauri::AppHandle) -> models::APIResult<Vec<models::Session>> {
 	let auth = handle.state::<models::AuthState>();
@@ -207,6 +206,10 @@ async fn get_api_sessions(handle: tauri::AppHandle) -> models::APIResult<Vec<mod
 	Ok(resp)
 }
 
+/// Get a single session informations and students.
+/// # Arguments
+/// - `handle`: AppHandle containing application state.
+/// - `session_id`: Id of the session to retrieve.
 #[tauri::command]
 async fn get_api_session(handle: tauri::AppHandle, session_id: String) -> models::APIResult<models::SessionResponse> {
 	let auth = handle.state::<models::AuthState>();
@@ -235,6 +238,11 @@ async fn get_api_session(handle: tauri::AppHandle, session_id: String) -> models
 	}
 }
 
+/// Save clikodrome session, this function save the attendance list for the current session.
+/// # Arguments
+/// - `handle`: AppHandle containing application state.
+/// - `students`: List of students to modify.
+/// - `session_id`: Id of the session to save.
 #[tauri::command]
 async fn put_api_session(handle: tauri::AppHandle, students: Vec<models::Student>, session_id: String) -> models::APIResult<models::ModifySessionResponse> {
 	let auth = handle.state::<models::AuthState>();
@@ -266,6 +274,9 @@ async fn put_api_session(handle: tauri::AppHandle, students: Vec<models::Student
 	}
 }
 
+/// Authenticate the user by initializing microsoft oauth2 flow.
+/// # Arguments
+/// - `handle`: AppHandle containing application state.
 #[tauri::command]
 async fn authenticate(handle: tauri::AppHandle) -> Result<String, errors::TauriError>{
 	let hand = handle.clone();
@@ -315,6 +326,13 @@ async fn read_file_content(file_path: String) -> String {
 	return contents;
 }
 
+/// Authorize the user when microsoft redirects him on the local server.
+/// The function will ask the token from microsoft by exchanging a code provided by the redirection.
+/// Returns anything that implements IntoResponse (in this case `axum::response::Html`).
+/// # Arguments
+/// - `handle`: AppHandle containing application state.
+/// - `signal`: Signal structure to receive the stop signal from the tauri command.
+/// - `query`: Query of the user redirected to the local server.
 async fn authorize(handle: Extension<tauri::AppHandle>, signal: Extension<tokio::sync::mpsc::Sender<String>>, query: Query<models::CallbackQuery>) -> impl IntoResponse {
     let auth = handle.state::<models::AuthState>();
 	let code = query.code.clone();
@@ -357,6 +375,11 @@ async fn authorize(handle: Extension<tauri::AppHandle>, signal: Extension<tokio:
 	return res;
 }
 
+/// Create and run a local server to catch the microsoft redirection.
+/// > **_NOTE:_** This server will be stopped by a signal sent when the user get a token.
+/// # Arguments
+/// - `handle`: AppHandle containing application state.
+/// - `signal`: Signal structure to receive the stop signal from the tauri command.
 async fn run_server(handle: tauri::AppHandle, signal: models::Signal) -> Result<(), axum::Error> {
 	let models::Signal {rx, tx} = signal;
 
@@ -374,6 +397,9 @@ async fn run_server(handle: tauri::AppHandle, signal: models::Signal) -> Result<
     Ok(())
 }
 
+/// Returns a oauth2 BasicClient configured with all configuration URI.
+/// # Arguments
+/// - `redirect_url` : local url to which microsoft will redirect.
 fn create_client(redirect_url: RedirectUrl) -> BasicClient {
 	let cli_id = env!("client_id").to_string();
 	let tenant_id = env!("tenant_id").to_string();

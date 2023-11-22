@@ -3,6 +3,8 @@ Desktop application for scanning student nfc cards.
 
 This application is part of a set of applications responsible for student attendance listing.
 
+If you are an assistant or a pedago and clikodrome is already setup for your city go check (releases)[https://github.com/JulienAldon/Clicoscan/releases]
+
 # Technologies
 - Rust + Tauri (backend)
 - JavaScript + React (frontend)
