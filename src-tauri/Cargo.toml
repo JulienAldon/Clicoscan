@@ -1,11 +1,11 @@
 [package]
 name = "clicoscan"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.0.1"
+description = "Desktop application for scanning student nfc cards. This application is part of a set of applications responsible for student attendance listing."
+authors = ["Julien Aldon"]
 license = ""
 repository = ""
-edition = "2021"
+edition = "2023"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

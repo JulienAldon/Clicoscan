@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { createContext } from "react";
 import { useEffect, useState, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
@@ -7,10 +6,10 @@ import { invoke } from "@tauri-apps/api/tauri";
 const AuthContext = createContext(null);
 
 function AuthProvider(props) {
-    const [token, setToken] = useState(Cookies.get('token'));
+    const [token, setToken] = useState(localStorage.getItem("token"));
 
     useState(() => {
-        console.log("auth provider", Cookies.get('token'))
+        console.log("auth provider", localStorage.getItem("token"))
     }, [token])
     return (<AuthContext.Provider value={{token, setToken}}>
         {props.children}
@@ -19,15 +18,16 @@ function AuthProvider(props) {
 }
 
 function logout() {
-    Cookies.remove('token');
-	window.location.replace(`/`);
+    localStorage.removeItem("token");
+    window.location.replace(`/`);
 }
 
 async function authenticate(setToken) {
     invoke("authenticate").then((result) => {
         if (result != "") {
+            console.log("authenticated")
             setToken(result);
-            Cookies.set('token', result);
+            localStorage.setItem("token", result);
         }
     }).catch((err) => {
         console.log(err);
@@ -38,7 +38,7 @@ function useAuthGuard() {
     const context = useContext(AuthContext);
 
     useEffect(() => {
-        if (context.token === undefined) {
+        if (context.token === undefined && localStorage.getItem("token") === undefined) {
             logout()
             console.log('logout because token was not found.');
         }
