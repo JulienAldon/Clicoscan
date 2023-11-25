@@ -3,12 +3,14 @@
     outline: none;    
     box-shadow: none;
     border-radius: 0px;
-    background-color: var(--light-color);
+    box-shadow: 0 9px var(--outlines);
+    background-color: var(--information);
     padding:1rem;
+    color: white;
 }
 
 .navButton:hover {
-    background-color: var(--information);
+    background-color: var(--background);
+    color: var(--information);
     transition: all ease-in-out 0.4s;
-
 }

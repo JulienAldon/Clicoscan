@@ -12,7 +12,7 @@
     flex-direction: column;
     width: 20vw;
     height: 33vh;
-    background-color: var(--light-color);
+    background-color: var(--background);
     border-radius: 3px;
     box-shadow: 5px 5px 5px rgba(100, 100, 0, 0.5);
 }

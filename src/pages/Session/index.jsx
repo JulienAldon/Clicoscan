@@ -186,7 +186,7 @@ function Session() {
                             }}
                             disabled={!isScanDevice}
                         >
-                            <label>Scan mode</label>
+                            <label className={`${styles.scanLabel}`}>Scan mode</label>
                             {<RecordingButton active={scanStatus}/>}
                         </AppButton>
                         <AppButton

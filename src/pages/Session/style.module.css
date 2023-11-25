@@ -19,18 +19,38 @@
     transition: all ease-in-out 0.4s;
 }
 
+.scanLabel {
+    margin-right: 15px;
+}
+
 .scanButton {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
+
+.appButton:disabled {
+    background-color: rgba(150, 150, 150);
+    box-shadow: 0 9px rgba(120, 120, 120);
+}
+
+.appButton:disabled:hover {
+    background-color: rgba(150, 150, 150);
+    box-shadow: 0 9px rgba(120, 120, 120);
+    color: white;
+}
+
 .appButton {
+    box-shadow: 0 9px var(--outlines);
+    background-color: var(--information);
+    color: white;
     transition: all ease-in-out 0.4s;
 }
 
 .appButton:hover {
-    background-color: var(--information);
+    background-color: var(--background);
+    color: var(--information);
     transition: all ease-in-out 0.4s;
 }
 
@@ -58,8 +78,8 @@ ul {
 
 .selected {
     background-color: #08c5ff46;
-    outline: #08c5fff8 solid 2px;
-    color: var(--dark-color);
+    outline: var(--information) solid 2px;
+    color: var(--outlines);
 }
 
 .buttonLoading {
@@ -75,4 +95,7 @@ ul {
 .commands {
     display: flex;
     flex-direction: row;
+    height: 4rem;
+    align-items: center;
+    justify-content: center;
 }

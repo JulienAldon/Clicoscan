@@ -45,7 +45,7 @@
 }
 
 .dateSelectClear:after {
-    background-color: var(--light-color);
+    background-color: var(--background);
     color: var(--information);
     border-radius: 2px;
     font-size: 1.5rem;

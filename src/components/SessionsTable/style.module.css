@@ -1,4 +1,5 @@
 .table {
+    margin-top: 1rem;
     border-collapse: collapse;
     align-self: center;
 }
@@ -9,13 +10,19 @@ td {
 }
 
 th {
-    width: 20vw
+    width: 20vw;
+    background-color: rgba(22, 22, 22, 0.1);
 }
 
 
 tr {
     display: flex;
     align-items: center;
+    height: 2.5rem;
+}
+
+tr:nth-child(2n) {
+    background-color: rgba(22, 22, 22, 0.1);
 }
 
 tr:hover {
@@ -56,5 +63,5 @@ a:hover {
 }
 
 .tableRow:hover a {
-    color: var(--dark-color);
+    color: var(--background);
 }

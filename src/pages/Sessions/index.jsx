@@ -35,7 +35,7 @@ function Sessions() {
     function getSessions() {
         setLoading(true);
         invoke("get_api_sessions").then((e) => {
-            setBackData(e)
+            setBackData(e.sort((a,b) => b.id - a.id))
             setLoading(false);
         }).catch((err) => {
             console.log("error", err);
@@ -115,10 +115,11 @@ function Sessions() {
                     sessionList={sessionList}
                     sessionHead={[
                         {name: "Id", id: "id", stateIcon: ">"},
-                        {name: "City", id: "city", stateIcon: ">"},
+                        // {name: "City", id: "city", stateIcon: ">"},
                         {name: "Date", id: "date", stateIcon: ">"},
                         {name: "Hour", id: "hour", stateIcon: ">"},
                     ]}
+                    defaultSort="id"
                 />
             }
         </main>

@@ -1,10 +1,12 @@
 :root {
   /* CSS HSL */
   --dark-color: hsla(200, 5%, 24%, 1);
-  --information: #08c6ff;
-  --outlines: #e9a9f9;
-  --background: rgba(255, 255, 255, 0.815);
-  --light-color: rgba(240, 240, 240, 1);
+  --information: rgba(15, 150, 150);
+  --outlines: rgb(12, 120, 120);
+  --background: rgba(255, 255, 255);
+  --deactivated-background: rgba(150, 150, 150);
+  --deactivated-shadow: rgba(120, 120, 120)
+
 
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -50,9 +52,9 @@ button {
   font-weight: 500;
   font-family: inherit;
   color: var(--dark-color);
-  background-color: var(--light-color);
+  background-color: var(--background);
   transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px var(--deactivated-shadow);
 }
 
 button {
@@ -62,14 +64,6 @@ button {
 input,
 button {
   outline: none;
-}
-
-button:disabled {
-  background-color: rgba(22, 22, 22, 0.2);
-}
-
-button:disabled:hover {
-  background-color: rgba(22, 22, 22, 0.2);
 }
 
 body {
@@ -84,7 +78,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color: var(--light-color);
+    color: var(--background);
     background-color: var(--dark-color);
   }
 
@@ -94,7 +88,7 @@ body {
 
   input,
   button {
-    color: var(--light-color);
+    color: var(--background);
     background-color: var(--dark-color);
   }
   button:active {

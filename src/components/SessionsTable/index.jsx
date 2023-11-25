@@ -3,11 +3,10 @@ import { useState, useEffect } from "react";
 import styles from './style.module.css';
 import { useNavigate } from "react-router-dom";
 
-const SessionsTable = ({onClickRow, sessionList, sessionHead, defaultSort}) => {
+const SessionsTable = ({onClickRow, sessionList, sessionHead, defaultSort="id"}) => {
     const [ sortedList, setSortedList ] = useState([...sessionList]);
     const [ tableHeadData, setTableHeadData ] = useState([...sessionHead]);
     const navigate = useNavigate();
-
     function setHeadStateIcon(table, icon, elem) {
         let newTable = table.map((el => {
             return {...el, stateIcon: ">"}
@@ -18,11 +17,15 @@ const SessionsTable = ({onClickRow, sessionList, sessionHead, defaultSort}) => {
 
     function sortTable(toSort, order) {
         return function (a, b) {
-            let x = a[toSort].toLowerCase();
-            let y = b[toSort].toLowerCase();
+            let x;
+            let y;
+
             if (toSort === "id") {
                 x = parseInt(a[toSort]);
                 y = parseInt(b[toSort]); 
+            } else {
+                x = a[toSort].toLowerCase();
+                y = b[toSort].toLowerCase();
             }
             if (x < y) {return order;}
             if (x > y) {return -order;}
@@ -33,20 +36,17 @@ const SessionsTable = ({onClickRow, sessionList, sessionHead, defaultSort}) => {
     function sortElements(sortElement) {
         let arr = [...sortedList];
         let tmp = [...arr];
-
-        arr.sort(sortTable(sortElement, -1));
+        arr.sort(sortTable(sortElement, 1));
         setTableHeadData(setHeadStateIcon(tableHeadData, "v", sortElement));
         if (JSON.stringify(arr) === JSON.stringify(tmp)) {
-            arr.sort(sortTable(sortElement, 1));
+            arr.sort(sortTable(sortElement, -1));
             setTableHeadData(setHeadStateIcon(tableHeadData, "^", sortElement));
         }
         setSortedList(arr);
     }
 
     useEffect(() => {
-        if (defaultSort)
-            sortElements(defaultSort);
-    }, [])
+    }, []);
 
     useEffect(() => {
         setSortedList(sessionList);
@@ -85,7 +85,7 @@ const SessionsTable = ({onClickRow, sessionList, sessionHead, defaultSort}) => {
                                 navigate("/session/"+elem.id);
                             }}
                             className={styles.tableRow}
-                            key={elem.id.toString()}>
+                            key={elem.id}>
                                 {tableHeadData.map((t) => {
                                     return (<Td key={t.id} to={`/session/${elem.id}`}>{elem[t.id]}</Td>)
                                 })}
