@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import { listen } from '@tauri-apps/api/event';
+import { appWindow } from '@tauri-apps/api/window'
 import AppLoader from "../../components/AppLoader";
 import styles from './style.module.css';
 import AppButton from "../../components/AppButton";
@@ -23,7 +25,8 @@ function Session() {
     const [ displayStudents, setDisplayStudents ] = useState([]);
     const { id } = useParams();
     const { toastList, setToastList } = useToast();
-    
+
+
     const handleSearchChange = (event) => {
         setDisplayStudents(students.filter((el) => el.login.includes(event.target.value)));
         setCurrentSearch(event.target.value);
@@ -90,41 +93,58 @@ function Session() {
     useEffect(() => {
         findNfcDevice();
         getSession(id);
+        listen('card-init-scan', (event) => {
+            setScanStatus(false);
+        });
+        listen('card-scan', (event) => {
+            if (event === "error_scan") {
+                setScanStatus(false);
+                return;
+            }
+            invoke("get_email_from_id", {cardId: event.payload.message}).then((z) => {
+                let elem = students.filter((el => el.login === z))
+                if (elem[0].status !== "present") {
+                    selectStudentScan(elem[0]);
+                }
+            }).catch((err) => {
+                return err
+            });
+        });
     }, []);
 
-    function scanNfcDevice(signal) {
-        if (signal.aborted) {
-            setScanStatus(false);
-            return signal.reason;
-        }
-        invoke("scan").then((e) => {
-            if (e !== "") {
-                invoke("get_email_from_id", {cardId: e}).then((z) => {
-                    let elem = students.filter((el => el.login === z))
-                    if (elem[0].status !== "present") {
-                        selectStudentScan(elem[0]);
-                    }
-                }).catch((err) => {
-                    return err
-                });
-            }
-            return setTimeout(() => {
-                return scanNfcDevice(signal);
-            }, 400)
-        }).catch((err) => {
-            if (err === "No card found") {
-                return setTimeout(() => {
-                    return scanNfcDevice(signal);
-                }, 400)
-            }
-            setScanStatus(false);
-        });
+    // function scanNfcDevice(signal) {
+    //     if (signal.aborted) {
+    //         setScanStatus(false);
+    //         return signal.reason;
+    //     }
+    //     invoke("scan").then((e) => {
+    //         if (e !== "") {
+    //             invoke("get_email_from_id", {cardId: e}).then((z) => {
+    //                 let elem = students.filter((el => el.login === z))
+    //                 if (elem[0].status !== "present") {
+    //                     selectStudentScan(elem[0]);
+    //                 }
+    //             }).catch((err) => {
+    //                 return err
+    //             });
+    //         }
+    //         return setTimeout(() => {
+    //             return scanNfcDevice(signal);
+    //         }, 400)
+    //     }).catch((err) => {
+    //         if (err === "No card found") {
+    //             return setTimeout(() => {
+    //                 return scanNfcDevice(signal);
+    //             }, 400)
+    //         }
+    //         setScanStatus(false);
+    //     });
 
-        signal.addEventListener("abort", () => {
-            setScanStatus(false);
-            return signal.reason;
-        });
-    }
+    //     signal.addEventListener("abort", () => {
+    //         setScanStatus(false);
+    //         return signal.reason;
+    //     });
+    // }
 
     function selectStudentScan(elem) {
         if (elem.status !== "present") {
@@ -146,17 +166,28 @@ function Session() {
         setStudents([...s]);
     }
     
-    useEffect(() => {
-        const controller = new AbortController();
-        const signal = controller.signal;
-        if (scanStatus) {
-            scanNfcDevice(signal);
-        }
+    // useEffect(() => {
+    //     const controller = new AbortController();
+    //     const signal = controller.signal;
+    //     if (scanStatus) {
+    //         scanNfcDevice(signal);
+    //     }
         
-        return () => {
-            controller.abort();
+    //     return () => {
+    //         controller.abort();
+    //     }
+    // }, [scanStatus]);
+    useEffect(() => {
+        if (scanStatus) {
+            invoke("start_scan").then((e) => {
+                console.log(e)
+            });
+        } else {
+            invoke("stop_scan").then((e) => {
+                console.log(e)
+            });
         }
-    }, [scanStatus]);
+    }, [scanStatus])
 
     useEffect(() => {
         setDisplayStudents(students.filter((el) => el.login.includes(currentSearch)));
@@ -184,7 +215,7 @@ function Session() {
                                     setScanStatus(true);
                                 }
                             }}
-                            disabled={!isScanDevice}
+                            disabled={isScanDevice}
                         >
                             <label>Scan mode</label>
                             {<RecordingButton active={scanStatus}/>}

@@ -94,6 +94,8 @@ pub struct AuthState {
     pub back_addr: String
 }
 
+pub struct ScannerState(pub Arc<Mutex<Option<tauri::async_runtime::JoinHandle<()>>>>);
+
 #[derive(Deserialize)]
 pub struct CallbackQuery {
     pub code: AuthorizationCode,
