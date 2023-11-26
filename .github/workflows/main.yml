@@ -81,6 +81,9 @@ jobs:
           make
           cd ..
           git clone https://github.com/nfc-tools/libnfc.git
+          cd libnfc
+          ./configure
+          make
           make install
       - name: install frontend dependencies
         run: yarn install # change this to npm or pnpm depending on which one you use
