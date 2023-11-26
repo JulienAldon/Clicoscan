@@ -74,12 +74,6 @@ jobs:
           ./vcpkg integrate install
           vcpkg install libusb
           cd ..
-          git clone https://salsa.debian.org/rousseau/PCSC.git
-          cd PCSC
-          ./bootstrap
-          ./configure
-          make
-          cd ..
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
           ./configure
