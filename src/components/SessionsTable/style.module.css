@@ -42,8 +42,6 @@ a:hover {
     color: var(--dark-color);
 }
 
-.tableHead {}
-
 .filterButton {
     padding: 0.5rem;
     border: none;

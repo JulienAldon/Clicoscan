@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04]
+        platform: [macos-latest, ubuntu-20.04, windows-latest]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -65,7 +65,23 @@ jobs:
         if: matrix.platform == 'macos-latest'
         run: |
           brew install libnfc
-
+      - name: install dependencies (windows)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          git clone https://github.com/Microsoft/vcpkg.git
+          cd vcpkg
+          ./bootstrap-vcpkg.bat
+          ./vcpkg integrate install
+          vcpkg install libusb
+          cd ..
+          git clone https://salsa.debian.org/rousseau/PCSC.git
+          cd PCSC
+          ./bootstrap
+          ./configure
+          make
+          cd ..
+          git clone https://github.com/nfc-tools/libnfc.git
+          make install
       - name: install frontend dependencies
         run: yarn install # change this to npm or pnpm depending on which one you use
       - uses: tauri-apps/tauri-action@v0
