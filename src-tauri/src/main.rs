@@ -105,7 +105,7 @@ pub fn hex_code_from_string(string: [u8; 10]) -> String {
 	return card_id;
 }
 
-async fn scanner_loop(window: Window)
+async fn scanner_loop(window: Window, abort_signal: Arc<std::sync::atomic::AtomicBool>)
 {
 	let mut string: [u8; 10];
     let mut context = context::new();
@@ -148,28 +148,30 @@ async fn scanner_loop(window: Window)
 		return;
     }
 
-    loop {
-		// tokio::time::sleep(std::time::Duration::from_millis(1000)).await;
-		// window.emit("card-scan", Payload { message: "card_id".to_string()}).unwrap();
-		println!("scan");
+	while !abort_signal.load(std::sync::atomic::Ordering::SeqCst) {
 		if nfc::error::device_get_last_error(device) != 0 {
 			window.emit("card-scan", Payload { message: "error_scan".to_string()}).unwrap();
 			return;
 		}
 		if nfc::initiator::poll_target(device, &modulation, 1, 1, 5, &mut target) > 0 {	
 			string = unsafe { (*target.nti.nai()).abtUid };
-            let card_id = hex_code_from_string(string);
-            window.emit("card-scan", Payload { message: card_id}).unwrap();
-        }
-    }
+			let card_id = hex_code_from_string(string);
+			window.emit("card-scan", Payload { message: card_id}).unwrap();
+			std::thread::sleep(std::time::Duration::from_millis(1500));
+			println!("card-scan");
+		}
+	}
 }
 
 #[tauri::command(async)]
 async fn start_scan(handle: tauri::AppHandle, window: Window) -> models::APIResult<String> {
 	let scan = handle.state::<models::ScannerState>();
-	let task_handle = Arc::clone(&scan.0);
+	let task_handle = Arc::clone(&scan.handle);
+	let signal = scan.signal.clone();
+	signal.store(false, std::sync::atomic::Ordering::SeqCst);
 	let task = tauri::async_runtime::spawn(async move {
-		let _result = scanner_loop(window).await;
+		println!("start scan");
+		let _result = scanner_loop(window, signal).await;
 	});
 	
 	*task_handle.lock().await = Some(task);
@@ -179,9 +181,12 @@ async fn start_scan(handle: tauri::AppHandle, window: Window) -> models::APIResu
 #[tauri::command(async)]
 async fn stop_scan(handle: tauri::AppHandle) -> models::APIResult<String> {
 	let scan = handle.state::<models::ScannerState>();
-	// let handle = Arc::clone(&scan.0);
-	match scan.0.lock().await.take() {
-		Some(h) => {h.abort()}
+	match scan.handle.lock().await.take() {
+		Some(h) => {
+			println!("abort");
+			h.abort();
+			scan.signal.store(true, std::sync::atomic::Ordering::SeqCst);
+		}
 		None => {println!("none")}
 	};
 	println!("stop scan");
@@ -523,7 +528,8 @@ fn main() {
     };
 
 	let scanner_state = models::ScannerState {
-		0: Arc::new(Mutex::new(None))
+		handle: Arc::new(Mutex::new(None)),
+		signal: Arc::new(std::sync::atomic::AtomicBool::new(false))
 	};
 
     tauri::Builder::default()

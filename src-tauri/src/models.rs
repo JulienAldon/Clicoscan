@@ -94,7 +94,10 @@ pub struct AuthState {
     pub back_addr: String
 }
 
-pub struct ScannerState(pub Arc<Mutex<Option<tauri::async_runtime::JoinHandle<()>>>>);
+pub struct ScannerState {
+    pub handle: Arc<Mutex<Option<tauri::async_runtime::JoinHandle<()>>>>,
+    pub signal: Arc<std::sync::atomic::AtomicBool>
+}
 
 #[derive(Deserialize)]
 pub struct CallbackQuery {

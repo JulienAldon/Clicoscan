@@ -25,7 +25,8 @@ function Session() {
     const [ displayStudents, setDisplayStudents ] = useState([]);
     const { id } = useParams();
     const { toastList, setToastList } = useToast();
-
+    const [ scanList, setScanList ] = useState([]);
+    const [ studentCards, setStudentCards ] = useState([]);
 
     const handleSearchChange = (event) => {
         setDisplayStudents(students.filter((el) => el.login.includes(event.target.value)));
@@ -93,25 +94,41 @@ function Session() {
     useEffect(() => {
         findNfcDevice();
         getSession(id);
-        listen('card-init-scan', (event) => {
+        const unlisten = listen('card-init-scan', (event) => {
             setScanStatus(false);
         });
         listen('card-scan', (event) => {
-            if (event === "error_scan") {
+            if (event.payload.message === "error_scan") {
                 setScanStatus(false);
                 return;
             }
-            invoke("get_email_from_id", {cardId: event.payload.message}).then((z) => {
+            setScanList(previous => [...previous, event.payload.message])
+        })
+        return () => {
+            unlisten.then(f => f());
+          }      
+    }, []);
+
+    useEffect(() => {
+        let lastCard = scanList[scanList.length - 1];
+        let stud = studentCards.filter(el => el.card === lastCard);
+        if (stud.length >= 1) {
+            let elem = students.filter((el => el.login === stud[0].login))
+            if (elem[0].status !== "present") {
+                selectStudentScan(elem[0]);
+            }
+        } else {
+            invoke("get_email_from_id", {cardId: lastCard}).then((z) => {
                 let elem = students.filter((el => el.login === z))
                 if (elem[0].status !== "present") {
+                    setStudentCards(previous => [...previous, {login: z, card: lastCard}])
                     selectStudentScan(elem[0]);
                 }
             }).catch((err) => {
                 return err
             });
-        });
-    }, []);
-
+        }
+    }, [scanList])
     // function scanNfcDevice(signal) {
     //     if (signal.aborted) {
     //         setScanStatus(false);
@@ -215,7 +232,7 @@ function Session() {
                                     setScanStatus(true);
                                 }
                             }}
-                            disabled={isScanDevice}
+                            disabled={!isScanDevice}
                         >
                             <label>Scan mode</label>
                             {<RecordingButton active={scanStatus}/>}
