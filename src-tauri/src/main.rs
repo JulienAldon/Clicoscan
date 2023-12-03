@@ -68,29 +68,6 @@ fn find_nfc_device() -> models::APIResult<String> {
 	return Ok(String::from(res));
 }
 
-#[tauri::command(async)]
-async fn get_email_from_id(handle: tauri::AppHandle, card_id: String) -> models::APIResult<String>{
-	let auth = handle.state::<models::AuthState>();
-	let token = auth.token.lock().await;
-	let bearer = "Bearer ".to_string() + &token.to_string();
-
-	let resp = Client::new()
-		.get(format!("{}/api/scan/card/", auth.back_addr).to_string() + &card_id)
-		.header("Authorization".to_string(), bearer)
-		.send()
-		.await?
-		.json::<models::BocalResponse>()
-		.await?
-		.card.user;
-
-	return Ok(resp);
-}
-
-#[derive(Clone, serde::Serialize)]
-struct Payload {
-  message: String,
-}
-
 /// Get the hex code and returns a string
 /// # Arguments
 /// - `string`: hex code.
@@ -124,7 +101,7 @@ async fn scanner_loop(window: Window, abort_signal: Arc<std::sync::atomic::Atomi
 
     if context.is_null() {
         println!("Unable to initialize new NFC context!");
-		window.emit("card-init-scan", Payload { message: "error_context".to_string()}).unwrap();
+		window.emit("card-init-scan", models::Payload { message: "error_context".to_string()}).unwrap();
 		return;
     }
 
@@ -134,7 +111,7 @@ async fn scanner_loop(window: Window, abort_signal: Arc<std::sync::atomic::Atomi
 
 	if device.is_null() {
         nfc::exit(context);
-		window.emit("card-init-scan", Payload { message: "error_device".to_string()}).unwrap();
+		window.emit("card-init-scan", models::Payload { message: "error_device".to_string()}).unwrap();
 		return;
     }
 	
@@ -144,19 +121,19 @@ async fn scanner_loop(window: Window, abort_signal: Arc<std::sync::atomic::Atomi
     	println!("{}", nfc::error::strerror(device));
         nfc::close(device);
         nfc::exit(context);
-		window.emit("card-init-scan", Payload { message: "error_device".to_string()}).unwrap();
+		window.emit("card-init-scan", models::Payload { message: "error_device".to_string()}).unwrap();
 		return;
     }
 
 	while !abort_signal.load(std::sync::atomic::Ordering::SeqCst) {
 		if nfc::error::device_get_last_error(device) != 0 {
-			window.emit("card-scan", Payload { message: "error_scan".to_string()}).unwrap();
+			window.emit("card-scan", models::Payload { message: "error_scan".to_string()}).unwrap();
 			return;
 		}
 		if nfc::initiator::poll_target(device, &modulation, 1, 1, 5, &mut target) > 0 {	
 			string = unsafe { (*target.nti.nai()).abtUid };
 			let card_id = hex_code_from_string(string);
-			window.emit("card-scan", Payload { message: card_id}).unwrap();
+			window.emit("card-scan", models::Payload { message: card_id}).unwrap();
 			std::thread::sleep(std::time::Duration::from_millis(1500));
 			println!("card-scan");
 		}
@@ -192,90 +169,6 @@ async fn stop_scan(handle: tauri::AppHandle) -> models::APIResult<String> {
 	println!("stop scan");
     Ok("Scanner successfully stopped".to_string())
 }
-
-// #[tauri::command(async)]
-// fn scan() -> models::APIResult<String> {
-//     let mut context = context::new();
-// 	let modulation = nfc::ffi::nfc_modulation {
-// 		nmt: nfc::ffi::nfc_modulation_type::NMT_ISO14443A,
-// 		nbr: nfc::ffi::nfc_baud_rate::NBR_106
-// 	};
-	
-// 	let mut target = nfc::ffi::nfc_target {
-// 		nti: nfc::ffi::nfc_target_info {
-// 			_bindgen_data_: [0; 283]
-// 		},
-// 		nm:	modulation
-// 	};
-// 	let mut connstrings: [i8; 1024] = [0; 1024];
-
-//     if context.is_null() {
-//         println!("Unable to initialize new NFC context!");
-// 		let res = Err(errors::TauriError {
-// 			detail: "Unable to initialize new NFC context"
-// 		});
-// 		return res;
-//     }
-
-// 	nfc::init(&mut context);
-// 	nfc::list_devices(context, &mut connstrings, 1024);
-// 	let device = nfc::open(context,  &connstrings);
-
-// 	if device.is_null() {
-//         print!("Unable to open new NFC device!");
-// 		let res = Err(errors::TauriError {
-// 			detail: "Unable to open new NFC device"
-// 		});
-//         nfc::exit(context);
-// 		return res;
-//     }
-	
-// 	let boxed_device: Box<*mut nfc::ffi::nfc_device> = Box::new(device);
-
-// 	if nfc::initiator::init(boxed_device) < 0 {
-//     	println!("{}", nfc::error::strerror(device));
-//         nfc::close(device);
-//         nfc::exit(context);
-// 		let res = Err(errors::TauriError {
-// 			detail: "error during initialize"
-// 		});
-// 		return res;
-//     }
-// 	let string: [u8; 10];
-// 	println!("poll");
-// 	loop {
-// 		if nfc::error::device_get_last_error(device) != 0 {
-// 			nfc::close(device);
-// 			nfc::exit(context);
-// 			let res = Err(errors::TauriError {
-// 				detail: "Error during polling"
-// 			});
-// 			return res;
-// 		}
-// 		if nfc::initiator::poll_target(device, &modulation, 1, 1, 5, &mut target) > 0 {
-			
-// 			string = unsafe { (*target.nti.nai()).abtUid };
-// 			break;
-// 		}	
-// 	}
-
-// 	if nfc::error::strerror(device) != "Success" {
-// 		nfc::close(device);
-// 		nfc::exit(context);
-// 		let res = Err(errors::TauriError {
-// 			detail: "No card found"
-// 		});
-// 		return res;
-// 	}
-
-// 	println!("result {}", nfc::error::strerror(device));
-// 	let card_id = hex_code_from_string(string);
-// 	println!("{}", card_id);
-// 	nfc::close(device);
-// 	nfc::exit(context);
-
-// 	return Ok(card_id);
-// }
 
 /// Get all sessions names, ids and datetime.
 /// # Arguments
@@ -542,7 +435,6 @@ fn main() {
 			find_nfc_device,
 			get_api_sessions,
 			get_api_session,
-			get_email_from_id,
 			put_api_session,
 			authenticate
 		])

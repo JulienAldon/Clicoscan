@@ -14,10 +14,9 @@ use oauth2::{
 pub struct Student {
     pub id: u64,
     pub login: String,
+    pub card: String,
     #[serde(default)]
     pub status: Option<String>,
-    #[serde(default)]
-    pub late: Option<String>,
     pub session_id: u64
 }
 
@@ -66,6 +65,11 @@ pub struct SessionResponse {
 #[derive(Deserialize, serde::Serialize)]
 pub struct Sessions {
 	pub result: Vec<Session>,
+}
+
+#[derive(Clone, serde::Serialize)]
+pub struct Payload {
+  pub message: String,
 }
 
 pub type APIResult<T, E = TauriError> = Result<T, E>;
