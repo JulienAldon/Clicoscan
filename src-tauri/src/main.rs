@@ -179,8 +179,6 @@ async fn get_api_sessions(handle: tauri::AppHandle) -> models::APIResult<Vec<mod
 	let token = auth.token.lock().await;
 	let bearer = "Bearer ".to_string() + &token.to_string();
 	
-	println!("{}/api/sessions", auth.back_addr);
-
 	let resp = Client::new()
 		.get(format!("{}/api/sessions", auth.back_addr))
 		.header("Authorization".to_string(), bearer)

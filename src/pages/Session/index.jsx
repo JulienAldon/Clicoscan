@@ -37,7 +37,6 @@ function Session() {
             setIsScanDevice(true);
         }).catch((err)=>{
             setIsScanDevice(false);
-            console.log(err);
         });
     }
 
@@ -68,7 +67,6 @@ function Session() {
             setSession(e.session[0]);
             setStudents(e.students);
         }).catch((err) => {
-            console.log("error", err);
             setLoading(false);
             setErrorMessage(err);
         })
@@ -123,14 +121,7 @@ function Session() {
                 setScanStatus(false);
                 return;
             }
-            setToastList((toastList) => {return [...toastList, {
-                id: Math.random().toString(),
-                title: "Information",
-                description: "Card scanned : " + event.payload.message,
-                backgroundColor: "#08c6ff",
-                deleted: false,
-            }]});
-            setScanList(previous => [...previous, event.payload.message]);
+            setScanList(previous => [...previous, event.payload.message]);            
         })
         return () => {
             clearInterval(interval);
@@ -145,7 +136,7 @@ function Session() {
         })
         if (elem.length > 0) {
             selectStudentScan(elem[0]);
-        }
+        } 
     }, [scanList])
 
     useEffect(() => {
