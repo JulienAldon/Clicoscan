@@ -40,11 +40,7 @@ function Session() {
         });
     }
 
-    function saveSession() {
-        setSaveLoading(true);
-        let payload = students.filter((el) => {
-            return el.status !== null
-        })
+    function saveSession(payload) {
         invoke("put_api_session", {students: payload, sessionId: id}).then((e) => {
             setSaveLoading(false);
             setSaveStatus("green");
@@ -57,7 +53,15 @@ function Session() {
             setTimeout(() => {
                 setSaveStatus("");
             }, 500);
+        });
+    }
+
+    function saveAllSession() {
+        setSaveLoading(true);
+        let payload = students.filter((el) => {
+            return el.status !== null
         })
+        saveSession(payload);
     }
 
     function getSession(id) {
@@ -90,6 +94,7 @@ function Session() {
             return stud;
         });
         setStudents([...s]);
+        saveSession([elem]);
     }
 
     function selectStudent(elem) {
@@ -101,6 +106,7 @@ function Session() {
             return stud;
         });
         setStudents([...s]);
+        saveSession([elem]);
     }
 
     function isPresent(elem) {
@@ -110,9 +116,6 @@ function Session() {
     useEffect(() => {
         findNfcDevice();
         getSession(id);
-        const interval = setInterval(() => {
-            saveSession();
-        }, 10000);
         const unlisten = listen('card-init-scan', (event) => {
             setScanStatus(false);
         });
@@ -124,7 +127,6 @@ function Session() {
             setScanList(previous => [...previous, event.payload.message]);            
         })
         return () => {
-            clearInterval(interval);
             unlisten.then(f => f());
           }      
     }, []);
@@ -183,7 +185,7 @@ function Session() {
                         </AppButton>
                         <AppButton
                             className={`${styles.appButton} ${saveStatus !== "" ? (saveStatus === "green" ? styles.green : styles.red) : ""}`}
-                            ButtonAction={saveSession}
+                            ButtonAction={saveAllSession}
                         >
                             <label>Save</label>
                             {saveLoading ? <AppLoader style={styles.buttonLoading}></AppLoader> : <></>}
