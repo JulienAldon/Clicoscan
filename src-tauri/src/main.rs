@@ -135,7 +135,6 @@ async fn scanner_loop(window: Window, abort_signal: Arc<std::sync::atomic::Atomi
 			let card_id = hex_code_from_string(string);
 			window.emit("card-scan", models::Payload { message: card_id}).unwrap();
 			std::thread::sleep(std::time::Duration::from_millis(1500));
-			println!("card-scan {}", '\x07');
 		}
 	}
 }

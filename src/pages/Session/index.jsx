@@ -138,7 +138,15 @@ function Session() {
         })
         if (elem.length > 0) {
             selectStudentScan(elem[0]);
-        } 
+        } else if (isScanDevice) {
+            setToastList((toastList) => {return [...toastList, {
+                id: Math.random().toString(),
+                title: "Error",
+                description: "Card not found" + lastCard,
+                backgroundColor: "rgba(150, 15, 15)",
+                deleted: false,
+            }]});
+        }
     }, [scanList])
 
     useEffect(() => {
