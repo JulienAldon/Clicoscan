@@ -77,21 +77,4 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    color: var(--background);
-    background-color: var(--dark-color);
-  }
-
-  a:hover {
-    color: #24c8db;
-  }
-
-  input,
-  button {
-    color: var(--background);
-    background-color: var(--dark-color);
-  }
-  button:active {
-    background-color: var(--dark-color);
-  }
 }
