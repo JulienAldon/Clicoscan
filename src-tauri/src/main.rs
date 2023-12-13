@@ -39,6 +39,9 @@ use oauth2::{
 	Scope,
 };
 
+/// Show connected nfc devices
+/// # Arguments
+/// - `handle` : AppHandle containing application state.
 #[tauri::command(async)]
 fn find_nfc_device() -> models::APIResult<String> {
 	let mut context = context::new();
@@ -139,6 +142,9 @@ async fn scanner_loop(window: Window, abort_signal: Arc<std::sync::atomic::Atomi
 	}
 }
 
+/// Start scan loop command
+/// # Arguments
+/// - `handle` : AppHandle containing application state.
 #[tauri::command(async)]
 async fn start_scan(handle: tauri::AppHandle, window: Window) -> models::APIResult<String> {
 	let scan = handle.state::<models::ScannerState>();
@@ -154,6 +160,9 @@ async fn start_scan(handle: tauri::AppHandle, window: Window) -> models::APIResu
     Ok("Scanner successfully started".to_string())
 }
 
+/// Stop scan loop command
+/// # Arguments
+/// - `handle` : AppHandle containing application state.
 #[tauri::command(async)]
 async fn stop_scan(handle: tauri::AppHandle) -> models::APIResult<String> {
 	let scan = handle.state::<models::ScannerState>();
