@@ -54,7 +54,7 @@ fn find_nfc_device() -> models::APIResult<String> {
 		});
 		return res;
     }
-
+	// let cmd: &[u8] = &[0xE0, 0x00, 0x00, 0x21, 0x01, 0x87];
 	nfc::init(&mut context);
 	nfc::list_devices(context, &mut connstrings, 1024);
 
