@@ -9,7 +9,6 @@ function AuthProvider(props) {
     const [token, setToken] = useState(localStorage.getItem("token"));
 
     useState(() => {
-        console.log("auth provider", localStorage.getItem("token"))
     }, [token])
     return (<AuthContext.Provider value={{token, setToken}}>
         {props.children}
@@ -25,7 +24,6 @@ function logout() {
 async function authenticate(setToken) {
     invoke("authenticate").then((result) => {
         if (result != "") {
-            console.log("authenticated")
             setToken(result);
             localStorage.setItem("token", result);
         }
