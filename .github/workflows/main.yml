@@ -64,7 +64,7 @@ jobs:
       - name: install dependencies (macos)
         if: matrix.platform == 'macos-latest'
         run: |
-          brew install libnfc automake
+          brew install libnfc automake make autoconf libtool
       - name: Add libnfc (macos)
         if: matrix.platform == 'macos-latest'
         run: |
@@ -73,6 +73,7 @@ jobs:
           autoreconf -vis
           ./configure
           make
+          ls
           mv libnfc.dylib ${{ github.workspace }}/lib
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-latest'
