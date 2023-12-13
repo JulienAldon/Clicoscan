@@ -1,6 +1,6 @@
 [package]
 name = "clicoscan"
-version = "1.0.0"
+version = "1.0.1"
 description = "Desktop application for scanning student nfc cards. This application is part of a set of applications responsible for student attendance listing."
 authors = ["Julien Aldon"]
 license = ""
