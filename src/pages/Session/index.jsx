@@ -138,7 +138,7 @@ function Session() {
         })
         if (elem.length > 0) {
             selectStudentScan(elem[0]);
-        } else if (isScanDevice) {
+        } else if (scanStatus) {
             setToastList((toastList) => {return [...toastList, {
                 id: Math.random().toString(),
                 title: "Error",
@@ -152,11 +152,23 @@ function Session() {
     useEffect(() => {
         if (scanStatus) {
             invoke("start_scan").then((e) => {
-                console.log(e)
+                setToastList((toastList) => {return [...toastList, {
+                    id: Math.random().toString(),
+                    title: "Information",
+                    description: "Card reader started",
+                    backgroundColor: "#08c6ff",
+                    deleted: false,
+                }]});
             });
-        } else {
+        } else if (isScanDevice) {
             invoke("stop_scan").then((e) => {
-                console.log(e)
+                setToastList((toastList) => {return [...toastList, {
+                    id: Math.random().toString(),
+                    title: "Information",
+                    description: "Card reader stopped",
+                    backgroundColor: "#08c6ff",
+                    deleted: false,
+                }]});
             });
         }
     }, [scanStatus])
