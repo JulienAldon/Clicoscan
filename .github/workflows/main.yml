@@ -64,7 +64,7 @@ jobs:
       - name: install dependencies (macos)
         if: matrix.platform == 'macos-latest'
         run: |
-          brew install libnfc
+          brew install libnfc automake
       - name: Add libnfc (macos)
         if: matrix.platform == 'macos-latest'
         run: |
