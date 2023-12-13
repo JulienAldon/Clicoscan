@@ -19,7 +19,7 @@
       }
     },
     "bundle": {
-      "resources": ["../template/*", "../libs/*"],
+      "resources": ["../template/*", "../lib/*"],
       "active": true,
       "targets": "all",
       "identifier": "fr.aldon.clikodrome",
