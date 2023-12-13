@@ -73,7 +73,7 @@ jobs:
           autoreconf -vis
           ./configure
           make
-          mv libnfc.dylib ${{ github.workspace }}/libs
+          mv libnfc.dylib ${{ github.workspace }}/lib
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-latest'
         run: |
@@ -82,7 +82,7 @@ jobs:
           autoreconf -vis
           ./configure
           make
-          mv libnfc.so ${{ github.workspace }}/libs
+          mv libnfc.so ${{ github.workspace }}/lib
       - name: install frontend dependencies
         run: yarn install # change this to npm or pnpm depending on which one you use
       - uses: tauri-apps/tauri-action@v0
