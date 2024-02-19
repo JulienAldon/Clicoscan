@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-22.04]
+        platform: [ubuntu-22.04]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -55,7 +55,7 @@ jobs:
         with:
           node-version: 20
       - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable        
+        uses: dtolnay/rust-toolchain@stable
       - name: install dependencies (ubuntu)
         if: matrix.platform == 'ubuntu-22.04'
         run: |
