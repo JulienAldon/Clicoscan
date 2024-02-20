@@ -60,21 +60,7 @@ jobs:
         if: matrix.platform == 'ubuntu-20.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf libnfc-dev
-      # - name: install dependencies (macos)
-      #   if: matrix.platform == 'macos-latest'
-      #   run: |
-      #     brew install libnfc automake make autoconf libtool
-      # - name: Add libnfc (macos)
-      #   if: matrix.platform == 'macos-latest'
-      #   run: |
-      #     git clone https://github.com/nfc-tools/libnfc.git
-      #     cd libnfc
-      #     autoreconf -vis
-      #     ./configure
-      #     make
-      #     ls
-      #     mv libnfc.dylib ${{ github.workspace }}/lib
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf libnfc-dev libpcsclite1
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
