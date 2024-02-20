@@ -86,6 +86,7 @@ jobs:
           mv libnfc.so ${{ github.workspace }}/lib
       - name: Move libnfc library to src-tauri/lib
         run: |
+          ls /usr/local/lib
           mkdir -p src-tauri/lib
           cp /usr/local/lib/libnfc.so* src-tauri/lib/
 
