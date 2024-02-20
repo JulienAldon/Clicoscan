@@ -30,7 +30,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "externalBin": ["src-tauri/lib/libnfc.so"]
+      "externalBin": ["/src-tauri/lib/libnfc.so"]
     },
     "security": {
       "csp": null
