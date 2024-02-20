@@ -70,8 +70,9 @@ jobs:
           ./configure --with-drivers=all --sysconfdir=/etc --prefix=/usr
           make
           mv libnfc/.libs/libnfc.so* ${{ github.workspace }}/src-tauri/lib
+          ls ${{ github.workspace }}/src-tauri/lib
       - name: install frontend dependencies
-        run: yarn install # change this to npm or pnpm depending on which one you use
+        run: yarn install
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
