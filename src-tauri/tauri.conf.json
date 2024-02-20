@@ -19,7 +19,7 @@
       }
     },
     "bundle": {
-      "resources": ["../template/*", "lib/*"],
+      "resources": ["../template/*"],
       "active": true,
       "targets": "all",
       "identifier": "fr.aldon.clikodrome",
@@ -30,7 +30,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "externalBin": ["./lib/libnfc.so*"]
+      "externalBin": ["lib/libnfc.so"]
     },
     "security": {
       "csp": null
