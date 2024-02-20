@@ -75,6 +75,7 @@ jobs:
           ls ${{github.workspace}}/src-tauri/lib
           yarn install
       - uses: tauri-apps/tauri-action@v0
+        run: ls ; pwd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           client_id: ${{ secrets.CLIENT_ID }}
