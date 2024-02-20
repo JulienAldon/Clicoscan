@@ -69,8 +69,8 @@ jobs:
           autoreconf -vis
           ./configure --with-drivers=all --sysconfdir=/etc --prefix=/usr
           make
-          mv libnfc/.libs/libnfc.so ${{ github.workspace }}/src-tauri/lib
-          ls ${{ github.workspace }}/src-tauri/lib/libnfc.so-x86_64-unknown-linux-gnu
+          mv libnfc/.libs/libnfc.so ${{ github.workspace }}/src-tauri/lib/libnfc.so-x86_64-unknown-linux-gnu
+          ls ${{ github.workspace }}/src-tauri/lib/
       - name: install frontend dependencies
         run: yarn install
       - uses: tauri-apps/tauri-action@v0
