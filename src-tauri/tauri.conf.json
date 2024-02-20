@@ -18,7 +18,7 @@
         "open": true,
         "sidecar": true,
         "scope": [
-          { "name": "lib/libnfc.so", "sidecar": true }
+          { "name": "lib/libnfc", "sidecar": true }
         ]
       }
     },
@@ -34,7 +34,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "externalBin": ["lib/libnfc.so"]
+      "externalBin": ["lib/libnfc"]
     },
     "security": {
       "csp": null
