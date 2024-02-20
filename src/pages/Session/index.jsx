@@ -134,7 +134,7 @@ function Session() {
     useEffect(() => {
         let lastCard = scanList[scanList.length - 1];
         let elem = students.filter((el) => {
-            return el.card === lastCard
+            return el.card === lastCard;
         })
         if (elem.length > 0) {
             selectStudentScan(elem[0]);
