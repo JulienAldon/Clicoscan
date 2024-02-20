@@ -15,7 +15,11 @@
       "all": false,
       "shell": {
         "all": false,
-        "open": true
+        "open": true,
+        "sidecar": true,
+        "scope": [
+          { "name": "./lib/libnfc.so", "sidecar": true }
+        ]
       }
     },
     "bundle": {
@@ -30,7 +34,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "externalBin": ["/src-tauri/lib/libnfc.so"]
+      "externalBin": ["./lib/libnfc.so"]
     },
     "security": {
       "csp": null
