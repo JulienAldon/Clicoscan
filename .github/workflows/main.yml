@@ -86,9 +86,9 @@ jobs:
           mv libnfc.so ${{ github.workspace }}/lib
       - name: Move libnfc library to src-tauri/lib
         run: |
-          ls {{ github.workspace }}/lib
-          cp {{ github.workspace }}/lib/libnfc.so* src-tauri/lib/
-          ls {{ github.workspace}}/lib
+          ls ${{ github.workspace }}/lib
+          cp ${{ github.workspace }}/lib/libnfc.so* src-tauri/lib/
+          ls ${{ github.workspace}}/lib
 
       - name: install frontend dependencies
         run: yarn install # change this to npm or pnpm depending on which one you use
