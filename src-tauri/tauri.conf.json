@@ -30,7 +30,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "externalBin": ["lib/libnfc.so"]
+      "externalBin": ["lib/libnfc"]
     },
     "security": {
       "csp": null
