@@ -69,11 +69,13 @@ jobs:
           .\bootstrap-vcpkg.bat
           .\vcpkg integrate install
           .\vcpkg install libusb
-      - name: setup mingwin
+      - name: use mingwin
         if: matrix.platform == 'windows-latest'
         uses: egor-tensin/setup-mingw@v2.2.0
-      - name: compile libnfc (windows)
+      - name: use cmake
+        if: matrix.platform == 'windows-latest'
         uses: threeal/cmake-action@v1.3.0
+      - name: compile libnfc (windows)
         if: matrix.platform == 'windows-latest'
         run: |
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..\libnfc-read-only
