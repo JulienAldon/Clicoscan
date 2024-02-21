@@ -88,7 +88,7 @@ jobs:
           mkdir build
           cd build
           ls ${{ github.workspace }}/vcpkg/packages/
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release --DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/vcpkg/packages/libusb_x64-windows/include
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ..
           cd ../bin
           mingw32-make
       - name: Add libnfc (ubuntu)
