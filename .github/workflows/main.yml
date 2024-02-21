@@ -87,11 +87,10 @@ jobs:
           cd libnfc
           mkdir build
           cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+          ls ${{ github.workspace }}/vcpkg/packages/
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release --DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/vcpkg/packages/libusb_x64-windows/include
+          cd ../bin
           mingw32-make
-          ls
-          ls ../bin
-          pwd
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
