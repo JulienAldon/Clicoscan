@@ -88,6 +88,7 @@ jobs:
           mkdir build
           cd build
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+          ls
           mingw32-make
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
