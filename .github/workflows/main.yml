@@ -72,7 +72,8 @@ jobs:
       - name: compile libnfc (windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..\libnfc-read-only
+          git clone https://github.com/nfc-tools/libnfc.git && cd libnfc
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
           mingw32-make
           ls
       - name: Add libnfc (ubuntu)
