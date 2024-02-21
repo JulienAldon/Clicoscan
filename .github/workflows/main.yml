@@ -86,12 +86,11 @@ jobs:
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
           mkdir build
-          mkdir libnfc-read-only
           cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..\libnfc-read-only
-          cd ../libnfc-read-only/bin
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
           mingw32-make
           ls
+          ls ../bin
           pwd
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
