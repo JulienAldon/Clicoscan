@@ -65,7 +65,8 @@ jobs:
       - name: Install Choco
         if: matrix.platform == 'windows-latest'
         uses: crazy-max/ghaction-chocolatey@v3.0.0
-        args: -h
+        with:
+          args: -h
       - name: Install MinGW
         if: matrix.platform == 'windows-latest'
         run: choco install mingw -y
