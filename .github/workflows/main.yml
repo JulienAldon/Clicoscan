@@ -81,7 +81,7 @@ jobs:
           cd vcpkg
           .\bootstrap-vcpkg.bat
           .\vcpkg integrate install
-          .\vcpkg install libusb
+          .\vcpkg install libusb --triplet x64-windows
           cd ..
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
