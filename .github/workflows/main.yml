@@ -81,14 +81,14 @@ jobs:
           cd vcpkg
           .\bootstrap-vcpkg.bat
           .\vcpkg integrate install
-          .\vcpkg install libusb --triplet x64-windows
+          .\vcpkg install libusb
           cd ..
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
           mkdir build
           cd build
-          ls ${{ github.workspace }}/vcpkg/packages/
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+          ls ${{ github.workspace }}/vcpkg/packages/libusb_x64-windows
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/vcpkg/packages/libusb_x64-windows/include ..
           cd ../bin
           mingw32-make
       - name: Add libnfc (ubuntu)
