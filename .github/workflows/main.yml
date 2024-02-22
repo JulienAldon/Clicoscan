@@ -89,8 +89,8 @@ jobs:
           mkdir build
           cd build
           ls ${{ github.workspace }}/vcpkg/packages/
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/vcpkg/packages/libusb_x64-windows/include:${{ github.workspace }}/libusb-win32/include -DLIBUSB_LIBRARIES=${{ github.workspace }}/vcpkg/packages/libusb_x64-windows/bin/libusb-1.0.dll: ${{ github.workspace }}/libusb-win32/bin/x86/libusb0_x86.dll ..
-          make
+          mingw64-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/vcpkg/packages/libusb_x64-windows/include:${{ github.workspace }}/libusb-win32/include -DLIBUSB_LIBRARIES=${{ github.workspace }}/vcpkg/packages/libusb_x64-windows/bin/libusb-1.0.dll: ${{ github.workspace }}/libusb-win32/bin/x86/libusb0_x86.dll ..
+          mingw64-make;;
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
