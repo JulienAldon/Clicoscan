@@ -73,7 +73,8 @@ jobs:
       - name: Install CMake
         if: matrix.platform == 'windows-latest'
         run: choco install cmake -y
-        
+      - name: Install libusb-win32
+        run: choco install libusb-win32 -y
       - name: prepare compilation libusb & libnfc (windows)
         if: matrix.platform == 'windows-latest'
         run: |
