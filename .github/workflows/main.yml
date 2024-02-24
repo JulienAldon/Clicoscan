@@ -80,8 +80,11 @@ jobs:
           cd libnfc
           mkdir build
           cd build
-          mingw-get install libusb-win32
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+          curl -L https://master.dl.sourceforge.net/project/libusb-win32/libusb-win32-releases/1.2.5.0/libusb-win32-bin-1.2.5.0.zip?viasf=1 -o libusb-win32.zip
+          unzip libusb-win32.zip
+          mv libusb-win32-bin-1.2.5.0 LibUSB-Win32
+          ls LibUSB-Win32
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DLIBUSB_LIBRARIES=${{ github.workspace }}/libnfc/build/LibUSB-Win32/lib/msvc/libusb.lib ..
           mingw32-make;;
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
