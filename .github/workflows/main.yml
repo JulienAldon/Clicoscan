@@ -67,9 +67,6 @@ jobs:
         uses: crazy-max/ghaction-chocolatey@v3.0.0
         with:
           args: -h
-      - name: Install MinGW
-        if: matrix.platform == 'windows-latest'
-        run: choco install mingw -y
       - name: Install CMake
         if: matrix.platform == 'windows-latest'
         run: choco install cmake -y
@@ -84,8 +81,8 @@ jobs:
           unzip libusb-win32.zip
           mv libusb-win32-bin-1.2.5.0 LibUSB-Win32
           ls LibUSB-Win32
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DLIBUSB_LIBRARIES=${{ github.workspace }}/libnfc/build/LibUSB-Win32/lib/msvc/libusb.lib ..
-          mingw32-make;;
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake --build .
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
