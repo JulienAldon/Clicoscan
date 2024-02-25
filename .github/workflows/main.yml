@@ -77,12 +77,14 @@ jobs:
           cd libnfc
           mkdir build
           cd build
-          curl -L https://master.dl.sourceforge.net/project/libusb-win32/libusb-win32-releases/1.2.5.0/libusb-win32-bin-1.2.5.0.zip?viasf=1 -o libusb-win32.zip
-          unzip libusb-win32.zip
-          mv libusb-win32-bin-1.2.5.0 LibUSB-Win32
+          curl -Lhttps://freefr.dl.sourceforge.net/project/libusb/libusb-1.0/libusb-1.0.27/libusb-1.0.27.7z -o libusb.7z
+          7z x libusb.7z
+          ls
+          mv libusb-1.0.27 LibUSB-Win32
           ls LibUSB-Win32
-          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/libnfc/build/LibUSB-Win32/include -DLIBUSB_LIBRARIES=${{ github.workspace }}/libnfc/build/LibUSB-Win32/VS2022/MS64/dll/libusb-1.0.lib ..
           cmake --build .
+          ls
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
