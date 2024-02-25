@@ -77,7 +77,7 @@ jobs:
           cd libnfc
           mkdir build
           cd build
-          curl -Lhttps://freefr.dl.sourceforge.net/project/libusb/libusb-1.0/libusb-1.0.27/libusb-1.0.27.7z -o libusb.7z
+          curl -L https://freefr.dl.sourceforge.net/project/libusb/libusb-1.0/libusb-1.0.27/libusb-1.0.27.7z -o libusb.7z
           7z x libusb.7z
           ls
           mv libusb-1.0.27 LibUSB-Win32
