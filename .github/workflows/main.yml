@@ -84,6 +84,8 @@ jobs:
           cmake --build .
           ls 
           ls windows
+          ls -la ../
+          ls ../.libs/
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
