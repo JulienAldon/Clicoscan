@@ -79,11 +79,12 @@ jobs:
           cd build
           curl -L https://freefr.dl.sourceforge.net/project/libusb/libusb-1.0/libusb-1.0.27/libusb-1.0.27.7z -o libusb.7z
           7z x libusb.7z
+          ls
           cmake -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/libnfc/build/include -DLIBUSB_LIBRARIES=${{ github.workspace }}/libnfc/build/VS2022/MS64/dll/libusb-1.0.lib ..
+          ls
           cmake --build .
           ls libnfc
-          ls libnfc/.libs/
-          cp libnfc/.libs/libnfc.dll ${{ github.workspace }}/src-tauri/lib/libnfc-x86_64-pc-windows-gnu
+          ls 
           cp ${{ github.workspace }}/libnfc/build/VS2022/MS64/dll/libusb-1.0.dll ${{ github.workspace }}/src-tauri/lib/libusb-x86_64-pc-linux-gnu
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
