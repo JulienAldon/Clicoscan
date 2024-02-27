@@ -78,12 +78,8 @@ jobs:
           mkdir build
           cd build
           curl -L https://deac-ams.dl.sourceforge.net/project/libusb-win32/libusb-win32-releases/1.2.7.3/libusb-win32-bin-1.2.7.3.zip -o LibUSB-Win32
-          curl -L https://freefr.dl.sourceforge.net/project/libusb/libusb-1.0/libusb-1.0.27/libusb-1.0.27.7z -o libusb.7z
-          7z x libusb.7z
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/libnfc/build/LibUSB-Win32/include -DLIBUSB_LIBRARIES=${{ github.workspace }}/libnfc/build/LibUSB-Win32/lib/msvc/libusb.lib ..
-          ls
           mingw32-make
-          ls libnfc
           ls 
           cp ${{ github.workspace }}/libnfc/build/VS2022/MS64/dll/libusb-1.0.dll ${{ github.workspace }}/src-tauri/lib/libusb-x86_64-pc-linux-gnu
       - name: Add libnfc (ubuntu)
