@@ -79,10 +79,9 @@ jobs:
           cd build
           curl -L https://freefr.dl.sourceforge.net/project/libusb/libusb-1.0/libusb-1.0.27/libusb-1.0.27.7z -o libusb.7z
           7z x libusb.7z
-          ls include
-          cmake -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=./include -DLIBUSB_LIBRARIES=${{ github.workspace }}/libnfc/build/VS2022/MS64/dll/libusb-1.0.lib ..
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=${{ github.workspace }}/libnfc/build/include -DLIBUSB_LIBRARIES=${{ github.workspace }}/libnfc/build/VS2022/MS32/dll/libusb-1.0.lib ..
           ls
-          cmake --build .
+          mingw32-make
           ls libnfc
           ls 
           cp ${{ github.workspace }}/libnfc/build/VS2022/MS64/dll/libusb-1.0.dll ${{ github.workspace }}/src-tauri/lib/libusb-x86_64-pc-linux-gnu
