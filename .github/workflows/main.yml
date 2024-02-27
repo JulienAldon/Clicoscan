@@ -76,8 +76,6 @@ jobs:
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
           mkdir build
-          cd build
-          mkdir build
           cd build 
           curl -L https://sourceforge.net/projects/libusb-win32/files/libusb-win32-releases/1.2.6.0/libusb-win32-bin-1.2.6.0.zip -o libusb-win32.zip
           unzip libusb-win32.zip
