@@ -75,7 +75,7 @@ jobs:
         run: |
           curl -L https://github.com/nfc-tools/libnfc/releases/download/libnfc-1.8.0/libnfc-1.8.0.tar.bz2 -o libnfc.tar.bz2
           ls
-          tar jcvf libnfc.tar.bz2
+          tar -jcvf libnfc.tar.bz2
           ls
           cd libnfc-1.8.0
           mkdir build
