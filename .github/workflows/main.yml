@@ -62,23 +62,24 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf libnfc-dev libpcsclite-dev
 
-      - name: Install Choco (windows)
-        if: matrix.platform == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v3.0.0
-        with:
-          args: -h
       - name: Install dependencies (windows)
         if: matrix.platform == 'windows-latest'
-        run: choco install cmake doxygen.install -y
-
-      - name: prepare compilation libusb & libnfc (windows)
+        run: |
+          C:\msys64\usr\bin\bash.exe
+          pacman -S git make mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-binutils mingw-w64-$(uname -m)-cmake mingw-w64-$(uname -m)-zlib mingw-w64-$(uname -m)-make  
+      - name: Download and extract libusb
         if: matrix.platform == 'windows-latest'
         run: |
           curl -L https://sourceforge.net/projects/libusb-win32/files/libusb-win32-releases/1.2.6.0/libusb-win32-bin-1.2.6.0.zip -o libusb-win32.zip
           unzip libusb-win32.zip
-          mv libusb-win32-bin-1.2.6.0 $PROGRAMFILES/LibUSB-Win32
+          mv libusb-win32-bin-1.2.6.0 C:\Program Files\libusb-win32
+      - name: prepare compilation libusb & libnfc (windows)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          C:\msys64\usr\bin\bash.exe
           mkdir libnfc-build-win64
           git clone https://github.com/nfc-tools/libnfc.git
+          $env:Path += ";c:\msys64\mingw64\bin;c:\msys64\mingw64\x86_64-w64-mingw32\lib;c:\msys64\mingw64\x86_64-w64-mingw32\include"
           cd libnfc-build-win64
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..\libnfc
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..\libnfc
