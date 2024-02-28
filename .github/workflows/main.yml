@@ -74,12 +74,14 @@ jobs:
         if: matrix.platform == 'windows-latest'
         run: |
           curl -L https://github.com/nfc-tools/libnfc/releases/download/libnfc-1.8.0/libnfc-1.8.0.tar.bz2 -o libnfc.tar.bz2
+          mv libnfc.tar.bz2 ${{ github.workspace }}/libnfc.tar.bz2
       - name: Extract libnfc (windows)
         if: matrix.platform == 'windows-latest'
         uses: ihiroky/extract-action@v1
         with:
-          file_path: libnfc.tar.bz2
+          file_path: ${{ github.workspace }}/libnfc.tar.bz2
           extract_dir: ${{ github.workspace }}
+          verbose: true
       - name: prepare compilation libusb & libnfc (windows)
         if: matrix.platform == 'windows-latest'
         run: |
