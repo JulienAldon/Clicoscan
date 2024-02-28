@@ -80,7 +80,7 @@ jobs:
           curl -L https://sourceforge.net/projects/libusb-win32/files/libusb-win32-releases/1.2.6.0/libusb-win32-bin-1.2.6.0.zip -o libusb-win32.zip
           unzip libusb-win32.zip
           mv libusb-win32-bin-1.2.6.0 LibUSB-Win32
-          cmake -GNinja .. && cmake --build .
+          cmake -GNinja -DLIBUSB_LIBRARY=${{ github.workspace }}/libnfc/build/LibUSB-Win32/msvc/libusb.lib .. && cmake --build .
           ls 
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
