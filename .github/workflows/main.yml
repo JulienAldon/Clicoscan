@@ -71,11 +71,11 @@ jobs:
         run: |
           curl -L https://sourceforge.net/projects/libusb-win32/files/libusb-win32-releases/1.2.6.0/libusb-win32-bin-1.2.6.0.zip -o libusb-win32.zip
           unzip libusb-win32.zip
-          mv libusb-win32-bin-1.2.6.0 "C:\Program Files\libusb-win32"
       - name: prepare compilation libusb & libnfc (windows)
         if: matrix.platform == 'windows-latest'
         run: |
           mkdir libnfc-build-win64
+          mv libusb-win32-bin-1.2.6.0 libnfc-build-win64/LibUSB-Win32
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc-build-win64
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..\libnfc
