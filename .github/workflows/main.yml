@@ -65,8 +65,7 @@ jobs:
       - name: Install dependencies (windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          & C:\msys64\usr\bin\bash.exe
-          pacman -S git make mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-binutils mingw-w64-$(uname -m)-cmake mingw-w64-$(uname -m)-zlib mingw-w64-$(uname -m)-make  
+          choco install cmake -y
       - name: Download and extract libusb
         if: matrix.platform == 'windows-latest'
         run: |
@@ -76,7 +75,6 @@ jobs:
       - name: prepare compilation libusb & libnfc (windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          & C:\msys64\usr\bin\bash.exe
           mkdir libnfc-build-win64
           git clone https://github.com/nfc-tools/libnfc.git
           $env:Path += ";c:\msys64\mingw64\bin;c:\msys64\mingw64\x86_64-w64-mingw32\lib;c:\msys64\mingw64\x86_64-w64-mingw32\include"
