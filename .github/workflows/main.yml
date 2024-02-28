@@ -69,13 +69,13 @@ jobs:
           args: -h
       - name: Install Windows Dependencies
         if: matrix.platform == 'windows-latest'
-        run: choco install cmake doxygen.install ninja -y
+        run: choco install cmake doxygen.install -y
       - name: prepare compilation libusb & libnfc (windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          git clone https://github.com/nfc-tools/libnfc.git
-          cd libnfc
-          autoreconf -vis
+          curl -L https://github.com/nfc-tools/libnfc/releases/download/libnfc-1.8.0/libnfc-1.8.0.tar.bz2 -o libnfc.tar.bz2
+          tar jcvf libnfc.tar.bz2
+          cd libnfc-1.8.0
           mkdir build
           cd build 
           curl -L https://sourceforge.net/projects/libusb-win32/files/libusb-win32-releases/1.2.6.0/libusb-win32-bin-1.2.6.0.zip -o libusb-win32.zip
