@@ -75,12 +75,13 @@ jobs:
         run: |
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
+          autoreconf -vis
           mkdir build
           cd build 
           curl -L https://sourceforge.net/projects/libusb-win32/files/libusb-win32-releases/1.2.6.0/libusb-win32-bin-1.2.6.0.zip -o libusb-win32.zip
           unzip libusb-win32.zip
           mv libusb-win32-bin-1.2.6.0 LibUSB-Win32
-          cmake -G "Visual Studio 17 2022" .. && cmake --build .
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
           ls 
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
