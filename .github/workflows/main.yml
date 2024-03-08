@@ -89,6 +89,8 @@ jobs:
           tar -xvjf libusb.tar.bz2
           ls 
           cd libusb-1.0.27
+          ./bootstrap.sh
+          ./autogen.sh
           make
           ls
           cd ..
