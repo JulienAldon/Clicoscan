@@ -85,6 +85,13 @@ jobs:
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
+          curl -L https://github.com/libusb/libusb/releases/download/v1.0.27/libusb-1.0.27.tar.bz2 -o libusb.tar.bz2
+          tar -xvjf libusb.tar.bz2
+          ls 
+          cd libusb-1.0.27
+          make
+          ls
+          cd ..
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
           autoreconf -vis
