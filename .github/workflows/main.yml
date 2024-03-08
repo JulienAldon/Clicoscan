@@ -88,8 +88,7 @@ jobs:
           curl -L https://github.com/libusb/libusb/releases/download/v1.0.27/libusb-1.0.27.tar.bz2 -o libusb.tar.bz2
           tar -xvjf libusb.tar.bz2
           cd libusb-1.0.27
-          ./bootstrap.sh
-          ./autogen.sh
+          ./configure
           make
           ls
           cd ..
