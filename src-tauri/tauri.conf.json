@@ -18,7 +18,8 @@
         "open": true,
         "sidecar": true,
         "scope": [
-          { "name": "lib/libnfc", "sidecar": true }
+          { "name": "lib/libnfc", "sidecar": true },
+          { "name": "lib/libusb", "sidecar": true }
         ]
       }
     },
@@ -34,7 +35,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "externalBin": ["lib/libnfc"]
+      "externalBin": ["lib/libnfc", "lib/libusb"]
     },
     "security": {
       "csp": null
