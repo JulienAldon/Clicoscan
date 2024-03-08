@@ -90,7 +90,10 @@ jobs:
           cd libusb-1.0.27
           ./configure
           make
-          ls
+          ls -la
+          ls -R | grep .so
+          ls libusb
+          ls .libs
           cd ..
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
