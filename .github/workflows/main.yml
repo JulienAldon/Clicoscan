@@ -79,7 +79,7 @@ jobs:
           mkdir libnfc-build-win64
           mv ../libusb-win32-bin-1.2.6.0 libnfc-build-win64/LibUSB-Win32
           cd libnfc-build-win64
-          cmake -G "MinGW Makefiles" .. && cmake --
+          cmake -G "MinGW Makefiles" ..
           ls
 
       - name: Add libnfc (ubuntu)
