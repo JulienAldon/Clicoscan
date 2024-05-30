@@ -77,7 +77,7 @@ jobs:
           git clone https://github.com/nfc-tools/libnfc.git
           cd libnfc
           mkdir libnfc-build-win64
-          mv ../libusb-win32-bin-1.2.6.0 libnfc-build-win64/LibUSB-Win32
+          mv ../libusb-win32-bin-1.2.6.0 LibUSB-Win32
           cd libnfc-build-win64
           cmake -G "MinGW Makefiles" ..
           mingw32-make
