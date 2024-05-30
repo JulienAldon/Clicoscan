@@ -76,11 +76,12 @@ jobs:
         run: |
           mkdir libnfc-build-win64
           mv "libusb-win32-bin-1.2.6.0" "$PROGRAMFILES/libusb-win32"
-          
+          ls        
           cd libnfc-build-win64
           git clone https://github.com/nfc-tools/libnfc.git
-
+          cd libnfc
           cmake -GNinja .. && cmake --
+          ls
 
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
