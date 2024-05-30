@@ -75,13 +75,13 @@ jobs:
         if: matrix.platform == 'windows-latest'
         run: |
           mkdir libnfc-build-win64
-          mv libusb-win32-bin-1.2.6.0 libnfc-build-win64/LibUSB-Win32
-          git clone https://github.com/nfc-tools/libnfc.git
+          mv "libusb-win32-bin-1.2.6.0" "$PROGRAMFILES/libusb-win32"
+          
           cd libnfc-build-win64
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..\libnfc
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..\libnfc
-          mingw32-make
-          ls LibUSB-Win32
+          git clone https://github.com/nfc-tools/libnfc.git
+
+          cmake -GNinja .. && cmake --
+
       - name: Add libnfc (ubuntu)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
