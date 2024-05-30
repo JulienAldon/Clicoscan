@@ -79,7 +79,7 @@ jobs:
           cd libnfc
           mkdir libnfc-build-win64
           cd libnfc-build-win64
-          cmake -GNinja .. && cmake --
+          cmake -G "MinGW Makefiles" .. && cmake --
           ls
 
       - name: Add libnfc (ubuntu)
