@@ -65,8 +65,7 @@ jobs:
       - name: Install dependencies (windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          choco install cmake -y
-          choco install doxygen.install
+          choco install cmake ninja -y
       - name: Download and extract libusb
         if: matrix.platform == 'windows-latest'
         run: |
@@ -80,7 +79,7 @@ jobs:
           mkdir libnfc-build-win64
           mv ../libusb-win32-bin-1.2.6.0 libnfc-build-win64/LibUSB-Win32
           cd libnfc-build-win64
-          cmake -G "MinGW Makefiles" .. && cmake --
+          cmake -G "Ninja" .. && cmake --
           ls
 
       - name: Add libnfc (ubuntu)
