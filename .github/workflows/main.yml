@@ -66,6 +66,7 @@ jobs:
         if: matrix.platform == 'windows-latest'
         run: |
           choco install cmake -y
+          choco install doxygen.install
       - name: Download and extract libusb
         if: matrix.platform == 'windows-latest'
         run: |
@@ -74,8 +75,8 @@ jobs:
       - name: prepare compilation libusb & libnfc (windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          mv "libusb-win32-bin-1.2.6.0" "$PROGRAMFILES/libusb-win32"
           git clone https://github.com/nfc-tools/libnfc.git
+          mv libusb-win32-bin-1.2.6.0 libnfc/LibUSB-Win32
           cd libnfc
           mkdir libnfc-build-win64
           cd libnfc-build-win64
