@@ -80,6 +80,8 @@ jobs:
           mv ../libusb-win32-bin-1.2.6.0 libnfc-build-win64/LibUSB-Win32
           cd libnfc-build-win64
           cmake -G "MinGW Makefiles" ..
+          mingw32-make
+          ls
           ls windows
           mv windows/libnfc-x86_64-pc-windows-msvc.exe ${{ github.workspace }}/src-tauri/lib/libnfc-x86_64-pc-windows-msvc.exe
       - name: Add libnfc (ubuntu)
