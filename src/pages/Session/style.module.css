@@ -29,6 +29,14 @@
     align-items: center;
 }
 
+.tabButton {
+    font-size: 2rem;
+    height: 5rem;
+}
+
+.tabActivated {
+    border-bottom: 2px solid var(--information);
+}
 
 .appButton:disabled {
     background-color: rgba(150, 150, 150);
@@ -98,4 +106,5 @@ ul {
     height: 4rem;
     align-items: center;
     justify-content: center;
+    margin-bottom: 2rem
 }

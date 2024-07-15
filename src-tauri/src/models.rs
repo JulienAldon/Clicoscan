@@ -17,6 +17,8 @@ pub struct Student {
     pub card: String,
     #[serde(default)]
     pub status: Option<String>,
+    pub begin: Option<String>,
+    pub end: Option<String>,
     pub session_id: u64
 }
 

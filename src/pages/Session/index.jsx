@@ -10,6 +10,7 @@ import { useAuthGuard } from "../../context/auth";
 import SearchBar from "../../components/SearchBar";
 import RecordingButton from "../../components/RecordingButton";
 import { useToast } from "../../context/toast";
+import Toggle from "../../components/Toggle";
 
 function Session() {
     const context = useAuthGuard();
@@ -26,6 +27,8 @@ function Session() {
     const { id } = useParams();
     const { toastList, setToastList } = useToast();
     const [ scanList, setScanList ] = useState([]);
+    const [ statusToChange, setStatusToChange ] = useState("begin")
+    const [ currentTab, setCurrentTab ] = useState("begin")
 
     const handleSearchChange = (event) => {
         setDisplayStudents(students.filter((el) => el.login.includes(event.target.value)));
@@ -88,7 +91,7 @@ function Session() {
         }
         const s = students.map((stud) => {
             if (stud.id === elem.id) {
-                elem.status = "present";
+                elem[statusToChange] = "present";
                 return elem;
             }
             return stud;
@@ -100,7 +103,7 @@ function Session() {
     function selectStudent(elem) {
         const s = students.map((stud) => {
             if (stud.id === elem.id) {
-                elem.status = elem.status === "present" ? "absent" : "present";
+                elem[currentTab] = elem[currentTab] === "present" ? "absent" : "present";
                 return elem;
             }
             return stud;
@@ -110,7 +113,8 @@ function Session() {
     }
 
     function isPresent(elem) {
-        return elem.status === "present";
+        console.log(elem, elem[currentTab] )
+        return elem[currentTab] === "present";
     }
 
     useEffect(() => {
@@ -184,6 +188,24 @@ function Session() {
                 <div>
                     <h1>Session #{session.id} - {session.date} - {session.hour}</h1>
                     <div className={styles.commands}>
+                        <AppButton 
+                            ButtonAction={() => {
+                                setCurrentTab("begin")
+                            }}
+                            className={`${styles.tabButton} ${currentTab === "begin" ? styles.tabActivated : ""}`}
+                        >
+                            Begin
+                        </AppButton>
+                        <AppButton 
+                            ButtonAction={() => {
+                                setCurrentTab("end")
+                            }}
+                            className={`${styles.tabButton} ${currentTab === "end" ? styles.tabActivated : ""}`}
+                        >
+                            End
+                        </AppButton>
+                    </div>
+                    <div className={styles.commands}>
                         <SearchBar
                             placeholder={"Search Student"} 
                             description={"Search student"} 
@@ -239,7 +261,7 @@ function Session() {
                                     }}
                                     className={`${isPresent(el) ? styles.selected : ""}`}
                                 >
-                                    <label>{el.login}</label> 
+                                    <label>{el.login}</label>
                                 </li>);
                             }
                         )
